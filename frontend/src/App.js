@@ -18,7 +18,7 @@ import RestorePass from './pages/Restore_Password';
 import MainPage from './pages/Test';
 import ThesisModify from './pages/Cards/My_thesis_info';
 import MyPropouse_Info from './pages/student-role/MyPropouse_Info';
-import Applied_Info from '/Users/Andrei_Sviridov/Desktop/React/frontend/src/pages/Applied_Info.js';
+import Applied_Info from './pages/Prof_role/Applied_Info';
 import StudentChatPage from './Student_Chat/My_thesis_page';
 import ProfesorChatPage from './Profesor_Chat/Profesor_Chat';
 import Admin_Page from './Admin_page/Admin_page copy';
