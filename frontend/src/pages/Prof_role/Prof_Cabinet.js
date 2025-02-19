@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import '/Users/Andrei_Sviridov/Desktop/React/frontend/src/page_css/Prof_role/prof_cab.css';
 import AddThesis from "/Users/Andrei_Sviridov/Desktop/React/frontend/src/pages/Prof_role/thesis_card.js";
-import { AppContext } from '/Users/Andrei_Sviridov/Desktop/React/frontend/src/components/AppContext.js';
+import { AppContext } from "../../components/AppContext";
 import PersonIcon from '@mui/icons-material/Person'; 
 import SchoolIcon from '@mui/icons-material/School'; 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';

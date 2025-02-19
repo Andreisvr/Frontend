@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useEffect,useContext,useState} from "react";
-import { AppContext } from "../components/AppContext";
+import { AppContext } from "../../components/AppContext";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 

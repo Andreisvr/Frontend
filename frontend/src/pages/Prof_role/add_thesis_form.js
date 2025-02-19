@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import '/Users/Andrei_Sviridov/Desktop/React/frontend/src/page_css/Prof_role/addthesis_form.css';
 import FacultyList from '../../components/Faculty_List';
 import { AppContext } from '../../components/AppContext';
-
 function ThesisForm() {
     const { name, email, logined, type } = useContext(AppContext);
     const navigate = useNavigate();
