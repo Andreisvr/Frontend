@@ -8,7 +8,7 @@ const app = express();
 
 
 app.use(cors({
-    origin: ['https://frontend-hj0o.onrender.com'], // Permite doar frontend-ul tău
+      origin: '*', // Permite doar frontend-ul tău
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true // Permite cookies și autentificare
