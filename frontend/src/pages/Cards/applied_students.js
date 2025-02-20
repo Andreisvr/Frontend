@@ -31,7 +31,7 @@ export default function Applied({
 
         SendEmail('rejected'); 
        
-        fetch(`"https://backend-tau.onrender.com/accept/${id}`, { 
+        fetch(`"https://backend-08v3.onrender.com/accept/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -59,7 +59,7 @@ export default function Applied({
            
     
             
-            const response = await fetch(`https://backend-tau.onrender.com/aplies/${studentId}`, {
+            const response = await fetch(`https://backend-08v3.onrender.com/aplies/${studentId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -105,7 +105,7 @@ export default function Applied({
             
             
         
-            const acceptResponse = await fetch("https://backend-tau.onrender.com/acceptedApplications", {
+            const acceptResponse = await fetch("https://backend-08v3.onrender.com/acceptedApplications", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData)

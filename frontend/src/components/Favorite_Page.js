@@ -24,7 +24,7 @@ export default function Favorite() {
             }
 
             
-            fetch(`https://backend-tau.onrender.com/Favorites/${userId}`, {
+            fetch(`https://backend-08v3.onrender.com/Favorites/${userId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -50,7 +50,7 @@ export default function Favorite() {
             
             Promise.all(
                 favoriteIds.map(id_thesis =>
-                    fetch(`http://localhost:8081/ThesisDetails/${id_thesis}`, {
+                    fetch(`https://backend-08v3.onrender.com/ThesisDetails/${id_thesis}`, {
                         method: "GET",
                         headers: { "Content-Type": "application/json" },
                     })
@@ -126,7 +126,7 @@ function FavoriteCard({ item }) {
         const userInfo = JSON.parse(storedUserInfo);
     
         try {
-            const response = await fetch('http://localhost:8081/fav', {
+            const response = await fetch('https://backend-08v3.onrender.com/fav', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

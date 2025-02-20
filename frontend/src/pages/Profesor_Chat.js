@@ -31,7 +31,7 @@ export default function ProfesorChatPage() {
     useEffect(() => {
        
         if ( userInfo?.id) {
-            fetch(`https://backend-tau.onrender.com/read_messages/${userInfo.id}/${stud_id}`, {
+            fetch(`https://backend-08v3.onrender.com/read_messages/${userInfo.id}/${stud_id}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -47,7 +47,7 @@ export default function ProfesorChatPage() {
    
     useEffect(() => {
         if (userInfo?.id && thesis_id) { 
-            fetch(`https://backend-tau.onrender.com/get_thesis/${thesis_id}`, {
+            fetch(`https://backend-08v3.onrender.com/get_thesis/${thesis_id}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -70,7 +70,7 @@ export default function ProfesorChatPage() {
             sender: 'prof',
         };
     
-        fetch("https://backend-tau.onrender.com/send_message", {
+        fetch("https://backend-08v3.onrender.com/send_message", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),

@@ -23,7 +23,7 @@ function RestorePass() {
     }
 
     try {
-        const response = await fetch(`https://backend-tau.onrender.com/check-email/${email}`, {
+        const response = await fetch(`https://backend-08v3.onrender.com/check-email/${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ function RestorePass() {
     console.log('Submitting password update for:', email, 'in table:', foundTable);
 
     try {
-        const response = await fetch('https://backend-tau.onrender.com/update-password', {
+        const response = await fetch('https://backend-08v3.onrender.com/update-password', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

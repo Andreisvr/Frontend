@@ -29,7 +29,7 @@ export default function MyApplied({
 
     const handleWithdraw = (id) => {
         
-        fetch(`https://backend-tau.onrender.com/myaply/${id}`, { 
+        fetch(`https://backend-08v3.onrender.com/myaply/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         })

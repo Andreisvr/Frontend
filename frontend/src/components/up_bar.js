@@ -45,7 +45,7 @@ const {  logined} = useContext(AppContext);
                 const fetchFavorites = async () => {
                     try {
                         const response = await fetch(
-                            `http://localhost:8081/count?userId=${userInfo.id}`, 
+                            `https://backend-08v3.onrender.com/count?userId=${userInfo.id}`, 
                             {
                                 method: 'GET',
                                 headers: {

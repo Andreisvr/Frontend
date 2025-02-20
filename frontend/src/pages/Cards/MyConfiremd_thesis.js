@@ -13,7 +13,7 @@ export default function MyConfirmed({ id_thesis, origin ,id_stud,date}) {
 
     useEffect(() => {
        
-            fetch(`https://backend-tau.onrender.com/ConfirmInformation_Student/${id_stud}?origin=${origin}`, {
+            fetch(`https://backend-08v3.onrender.com/ConfirmInformation_Student/${id_stud}?origin=${origin}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -39,7 +39,7 @@ export default function MyConfirmed({ id_thesis, origin ,id_stud,date}) {
                 });
        
         
-        fetch(`https://backend-tau.onrender.com/ConfirmInformation/${id_thesis}?origin=${origin}`, {
+        fetch(`https://backend-08v3.onrender.com/ConfirmInformation/${id_thesis}?origin=${origin}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })

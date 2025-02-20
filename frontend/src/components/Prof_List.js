@@ -13,7 +13,7 @@ export default function ProfessorList({ faculty, onSelect }) {
             setLoading(true); 
             const fetchProfessors = async () => {
                 try {
-                    const response = await fetch(`https://backend-tau.onrender.com/get-professors?faculty=${faculty}`);
+                    const response = await fetch(`https://backend-08v3.onrender.com/get-professors?faculty=${faculty}`);
                     if (!response.ok) throw new Error('Failed to fetch professors');
                     const data = await response.json();
                     setProfessors(data);

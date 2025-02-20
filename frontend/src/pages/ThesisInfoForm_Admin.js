@@ -13,7 +13,7 @@ export default function ThesisInfo_Admin() {
     const { thesis_id } = useContext(AppContext); 
     useEffect(() => {
        
-        fetch(`https://backend-tau.onrender.com/thesis_admin?id=${thesis_id}`)
+        fetch(`https://backend-08v3.onrender.com/thesis_admin?id=${thesis_id}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setThesisData(data);

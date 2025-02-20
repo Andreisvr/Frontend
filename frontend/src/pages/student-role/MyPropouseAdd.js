@@ -92,7 +92,7 @@ export default function MyPropouseAdd() {
        
 
         try {
-            const response = await fetch(`https://backend-tau.onrender.com/Propouses`, {
+            const response = await fetch(`https://backend-08v3.onrender.com/Propouses`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

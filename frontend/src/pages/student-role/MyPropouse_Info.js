@@ -27,7 +27,7 @@ export default function MyPropouse_Info()
             }
 
             try {
-                const response = await fetch(`https://backend-tau.onrender.com/MyPropouse/${thesis_id}`);
+                const response = await fetch(`https://backend-08v3.onrender.com/MyPropouse/${thesis_id}`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch thesis data');
@@ -58,7 +58,7 @@ export default function MyPropouse_Info()
         const fetchStudyYear = async () => {
             try {
                
-                const response = await fetch(`https://backend-tau.onrender.com/student_info/${id}`);
+                const response = await fetch(`https://backend-08v3.onrender.com/student_info/${id}`);
                 
                 if (!response.ok) {
                     throw new Error("Failed to fetch study year");
@@ -92,7 +92,7 @@ export default function MyPropouse_Info()
 
     function handlePropouse_Accepted(id) {
         console.log(`Accepting proposal with ID: ${id}`);
-        fetch(`https://backend-tau.onrender.com/proposalAcceptConfirm/${id}`, {
+        fetch(`https://backend-08v3.onrender.com/proposalAcceptConfirm/${id}`, {
             method: "PATCH", 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ state: "accepted" }), 
@@ -117,7 +117,7 @@ export default function MyPropouse_Info()
         e.preventDefault();
         e.stopPropagation();
         console.log(`Rejecting proposal with ID: ${id}`);
-        fetch(`https://backend-tau.onrender.com/proposaReject/${id}`, {
+        fetch(`https://backend-08v3.onrender.com/proposaReject/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ state: "rejected" }), 
@@ -171,7 +171,7 @@ export default function MyPropouse_Info()
            console.log('acceptedApplicationData',acceptedApplicationData);
            
        
-           const acceptResponse = await fetch("https://backend-tau.onrender.com/acceptedApplications", {
+           const acceptResponse = await fetch("https://backend-08v3.onrender.com/acceptedApplications", {
                method: "POST",
                headers: { "Content-Type": "application/json" },
                body: JSON.stringify(acceptedApplicationData)
@@ -195,7 +195,7 @@ export default function MyPropouse_Info()
     e.preventDefault();
     e.stopPropagation();
    
-    fetch(`https://backend-tau.onrender.com/withdrawApplication/${id}`, { 
+    fetch(`https://backend-08v3.onrender.com/withdrawApplication/${id}`, { 
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
     })

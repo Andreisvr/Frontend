@@ -39,7 +39,7 @@ export default function AddThesis({
 
     function handleMyAplication_delet(id) {
        
-        fetch(`https://backend-tau.onrender.com/delMyAplication/${id}`, { 
+        fetch(`https://backend-08v3.onrender.com/delMyAplication/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -55,7 +55,7 @@ export default function AddThesis({
     function handleAplication_delet(id) {
        
 
-        fetch(`https://backend-tau.onrender.com/accept/${id}`, { 
+        fetch(`https://backend-08v3.onrender.com/accept/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -80,7 +80,7 @@ export default function AddThesis({
             console.log(studentId);
     
             
-            const response = await fetch(`https://backend-tau.onrender.com/aplies/${studentId}`, {
+            const response = await fetch(`https://backend-08v3.onrender.com/aplies/${studentId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -122,7 +122,7 @@ export default function AddThesis({
             
     
         
-            const acceptResponse = await fetch("https://backend-tau.onrender.com/acceptedApplications", {
+            const acceptResponse = await fetch("https://backend-08v3.onrender.com/acceptedApplications", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData)

@@ -71,7 +71,7 @@ export default function Cabinet() {
 
   
     useEffect(() => {
-        fetch("https://backend-tau.onrender.com/prof", {
+        fetch("https://backend-08v3.onrender.com/prof", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -90,7 +90,7 @@ export default function Cabinet() {
         .catch((error) => console.error("Error fetching theses:", error));
 
         if (logined) {
-            fetch("https://backend-tau.onrender.com/prof", {
+            fetch("https://backend-08v3.onrender.com/prof", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -105,7 +105,7 @@ export default function Cabinet() {
             })
             .catch((error) => console.error("Error fetching user info:", error));
 
-            fetch("https://backend-tau.onrender.com/applies", {
+            fetch("https://backend-08v3.onrender.com/applies", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -141,7 +141,7 @@ export default function Cabinet() {
             alert("Not logined")
             return;
         }
-        fetch(`https://backend-tau.onrender.com/show_My_applies/${studentId}`, {
+        fetch(`https://backend-08v3.onrender.com/show_My_applies/${studentId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -177,7 +177,7 @@ export default function Cabinet() {
             return;
         }
     
-        fetch(`https://backend-tau.onrender.com/show_My_thesis/${profId}`, {
+        fetch(`https://backend-08v3.onrender.com/show_My_thesis/${profId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -234,7 +234,7 @@ export default function Cabinet() {
     
         const studentId = parsedUserInfo.id; 
        
-        fetch(`https://backend-tau.onrender.com/Responses/${studentId}`, {
+        fetch(`https://backend-08v3.onrender.com/Responses/${studentId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -287,7 +287,7 @@ export default function Cabinet() {
        
        
        const Profid= id;
-        fetch(`https://backend-tau.onrender.com/Accepted/${Profid}`, {
+        fetch(`https://backend-08v3.onrender.com/Accepted/${Profid}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -314,7 +314,7 @@ export default function Cabinet() {
 
            
             try {
-                const response = await fetch(`https://backend-tau.onrender.com/getProposals/${id}`);
+                const response = await fetch(`https://backend-08v3.onrender.com/getProposals/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch proposals');
                 }
@@ -377,7 +377,7 @@ export default function Cabinet() {
         }
     
         try {
-            const response = await fetch(`https://backend-tau.onrender.com/propoused/${name}`, {
+            const response = await fetch(`https://backend-08v3.onrender.com/propoused/${name}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -407,7 +407,7 @@ export default function Cabinet() {
       
         setViewType("MyChose");
        
-        fetch(`https://backend-tau.onrender.com/confirmed?id_prof=${id}`, {
+        fetch(`https://backend-08v3.onrender.com/confirmed?id_prof=${id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
