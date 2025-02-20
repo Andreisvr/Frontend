@@ -22,7 +22,7 @@ function LogIn() {
     const gmail_password =  decodedToken.jti;
     
     try {
-      const response = await axios.post('http://localhost:8081/login', {
+      const response = await axios.post('https://backend-tau.onrender.com/login', {
         email: gmailEmail,
         pass : gmail_password
       });
@@ -77,7 +77,7 @@ function LogIn() {
     // }
 
     try {
-      const response = await axios.post('http://localhost:8081/login', {
+      const response = await axios.post('https://backend-tau.onrender.com/login', {
           email,
           password,
       });

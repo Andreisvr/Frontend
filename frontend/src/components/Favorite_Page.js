@@ -24,7 +24,7 @@ export default function Favorite() {
             }
 
             
-            fetch(`http://localhost:8081/Favorites/${userId}`, {
+            fetch(`https://backend-tau.onrender.com/Favorites/${userId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })

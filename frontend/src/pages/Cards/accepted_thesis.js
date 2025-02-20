@@ -22,7 +22,7 @@ export default function Accepted({
     function handleAplication_delet(id) {
        
         console.log(id);
-        fetch(`http://localhost:8081/accept/${id}`, { 
+        fetch(`https://backend-tau.onrender.com/accept/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -47,8 +47,8 @@ export default function Accepted({
             }
             console.log(studentId);
     
-            // Așteaptă răspunsul de la server pentru aplicațiile studentului
-            const response = await fetch(`http://localhost:8081/aplies/${studentId}`, {
+            
+            const response = await fetch(`https://backend-tau.onrender.com/aplies/${studentId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -90,7 +90,7 @@ export default function Accepted({
             
     
         
-            const acceptResponse = await fetch("http://localhost:8081/acceptedApplications", {
+            const acceptResponse = await fetch("https://backend-tau.onrender.com/acceptedApplications", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData)

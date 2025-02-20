@@ -41,7 +41,7 @@ const handleModifyClick = () => {
   };
 
   const handleWithdraw = (id) => {
-    fetch(`http://localhost:8081/prof/${id}`, {
+    fetch(`https://backend-tau.onrender.com/prof/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     })
@@ -54,7 +54,7 @@ const handleModifyClick = () => {
 
   const handleStop = (id) => {
     if (state === "closed") return;
-    fetch(`http://localhost:8081/stop_thesis/${id}`, {
+    fetch(`https://backend-tau.onrender.com/stop_thesis/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
     })
@@ -66,7 +66,7 @@ const handleModifyClick = () => {
 
   const handleOpen = (id) => {
     if (state === "closed") return;
-    fetch(`http://localhost:8081/open_thesis/${id}`, {
+    fetch(`https://backend-tau.onrender.com/open_thesis/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
     })

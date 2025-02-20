@@ -22,7 +22,7 @@ export default function Applied_Info(){
             }
            
             try {
-                const response = await fetch(`http://localhost:8081/Applied_info/${thesis_id}`);
+                const response = await fetch(`https://backend-tau.onrender.com/Applied_info/${thesis_id}`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch thesis data');
@@ -56,7 +56,7 @@ export default function Applied_Info(){
        
        
         console.log(id);
-        fetch(`http://localhost:8081/myaply/${id}`, { 
+        fetch(`https://backend-tau.onrender.com/myaply/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         })
@@ -89,7 +89,7 @@ export default function Applied_Info(){
         e.preventDefault();
         e.stopPropagation();
 
-        fetch(`http://localhost:8081/accept/${id}`, { 
+        fetch(`https://backend-tau.onrender.com/accept/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -118,7 +118,7 @@ export default function Applied_Info(){
            
     
             
-            const response = await fetch(`http://localhost:8081/aplies/${studentId}`, {
+            const response = await fetch(`https://backend-tau.onrender.com/aplies/${studentId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -164,7 +164,7 @@ export default function Applied_Info(){
             
             
         
-            const acceptResponse = await fetch("http://localhost:8081/acceptedApplications", {
+            const acceptResponse = await fetch("https://backend-tau.onrender.com/acceptedApplications", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData)

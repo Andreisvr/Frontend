@@ -9,7 +9,7 @@ export async  function GetAllApplies(id) {
             return [];
         }
 
-        const response = await fetch(`http://localhost:8081/aplies/${studentId}`, {
+        const response = await fetch(`https://backend-tau.onrender.com/aplies/${studentId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -31,7 +31,7 @@ export async  function GetAllApplies(id) {
 
 export async function GetAllAccepted(id) {
     try {
-        const response = await fetch(`http://localhost:8081/Accepted/${id}`, {
+        const response = await fetch(`https://backend-tau.onrender.com/Accepted/${id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });

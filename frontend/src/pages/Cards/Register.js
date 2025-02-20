@@ -177,7 +177,7 @@ function RegFormStudent() {
     event.preventDefault();
 
 
-    fetch(`http://localhost:8081/Verify_Profesor?email=${UserData.email}`)
+    fetch(`https://backend-tau.onrender.com/Verify_Profesor?email=${UserData.email}`)
         .then((response) => response.json())
         .then(async (data) => {
           
@@ -200,7 +200,7 @@ function RegFormStudent() {
             
             if (verificationCode === generatedCode) {
                 try {
-                    const response = await fetch('http://localhost:8081/reg', {
+                    const response = await fetch('https://backend-tau.onrender.com/reg', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

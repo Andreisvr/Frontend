@@ -23,7 +23,7 @@ function RestorePass() {
     }
 
     try {
-        const response = await fetch(`http://localhost:8081/check-email/${email}`, {
+        const response = await fetch(`https://backend-tau.onrender.com/check-email/${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,17 +42,17 @@ function RestorePass() {
             setGeneratedCode(code);
             console.log('Codul de verificare:', code);
         // Trimitere cod către server pentru email
-            // const sendCodeResponse = await fetch('http://localhost:5002/reg', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ email, code }),
-            // });
+            const sendCodeResponse = await fetch('http://localhost:5002/reg', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, code }),
+            });
     
-            // if (!sendCodeResponse.ok) {
-            //     throw new Error(`Error sending verification code: ${sendCodeResponse.status}`);
-            // }
+            if (!sendCodeResponse.ok) {
+                throw new Error(`Error sending verification code: ${sendCodeResponse.status}`);
+            }
 
 
             setStep(2);
@@ -96,7 +96,7 @@ function RestorePass() {
     console.log('Submitting password update for:', email, 'in table:', foundTable);
 
     try {
-        const response = await fetch('http://localhost:8081/update-password', {
+        const response = await fetch('https://backend-tau.onrender.com/update-password', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

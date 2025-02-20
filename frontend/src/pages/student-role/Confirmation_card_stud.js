@@ -21,7 +21,7 @@ export default function AddResponse({
     function handleResponse_delet(id) {
         console.log(id);
 
-        fetch(`http://localhost:8081/response/${id}`, { 
+        fetch(`https://backend-tau.onrender.com/response/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -38,7 +38,7 @@ export default function AddResponse({
 
         {
          
-            fetch(`http://localhost:8081/proposalAcceptConfirm/${id_thesis}`, {
+            fetch(`https://backend-tau.onrender.com/proposalAcceptConfirm/${id_thesis}`, {
                 method: "PATCH", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ state: "confirmed" }), 
@@ -78,7 +78,7 @@ export default function AddResponse({
     
             console.log("1Data accepted:", acceptedApplicationData);
     
-            const confirmResponse = await fetch("http://localhost:8081/confirmation", {
+            const confirmResponse = await fetch("https://backend-tau.onrender.com/confirmation", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData),
@@ -121,7 +121,7 @@ export default function AddResponse({
         
                
         
-                const confirmResponse = await fetch("http://localhost:8081/confirmationPropouse", {
+                const confirmResponse = await fetch("https://backend-tau.onrender.com/confirmationPropouse", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(acceptedApplicationData),

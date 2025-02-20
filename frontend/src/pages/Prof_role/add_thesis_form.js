@@ -73,7 +73,7 @@ function ThesisForm() {
         };
 
         try {
-            const response = await fetch('http://localhost:8081/add_form', {
+            const response = await fetch('https://backend-tau.onrender.com/add_form', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

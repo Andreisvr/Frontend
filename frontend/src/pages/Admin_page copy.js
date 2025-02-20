@@ -46,10 +46,10 @@ export default function Admin_Page() {
     
                 // Fetch all data concurrently using Promise.all
                 Promise.all([
-                    fetch(`http://localhost:8081/getAllTheses?faculty=${faculty}`).then(res => res.json()),
-                    fetch(`http://localhost:8081/getAllProfessors?faculty=${faculty}`).then(res => res.json()),
-                    fetch(`http://localhost:8081/getStudents?faculty=${faculty}`).then(res => res.json()),
-                    fetch(`http://localhost:8081/getAllConfirmed`).then(res => res.json())
+                    fetch(`https://backend-tau.onrender.com/getAllTheses?faculty=${faculty}`).then(res => res.json()),
+                    fetch(`https://backend-tau.onrender.com/getAllProfessors?faculty=${faculty}`).then(res => res.json()),
+                    fetch(`https://backend-tau.onrender.com/getStudents?faculty=${faculty}`).then(res => res.json()),
+                    fetch(`https://backend-tau.onrender.com/getAllConfirmed`).then(res => res.json())
                 ])
                 .then(([thesesData, professorsData, studentsData, confirmedData]) => {
                     setAllTheses(thesesData);
@@ -131,7 +131,7 @@ export default function Admin_Page() {
 
     
         try {
-            const response = await fetch("http://localhost:8081/thesis_admin", {
+            const response = await fetch("https://backend-tau.onrender.com/thesis_admin", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -161,7 +161,7 @@ export default function Admin_Page() {
     if (!window.confirm(`Are you sure you want to delete this student? It will be removed from all fields, even if it has been confirmed by someone. Student ID-ul ${id}?`)) return;
     
     try {
-        const response = await fetch("http://localhost:8081/delete_student_admin", {
+        const response = await fetch("https://backend-tau.onrender.com/delete_student_admin", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -196,7 +196,7 @@ export default function Admin_Page() {
     }
     
     try {
-        const response = await fetch("http://localhost:8081/Verify_Profesor", {
+        const response = await fetch("https://backend-tau.onrender.com/Verify_Profesor", {
             method: "PUT",  
             headers: {
                 "Content-Type": "application/json",
@@ -227,7 +227,7 @@ export default function Admin_Page() {
     if (!window.confirm(`Are you sure you want to delete this Professor? It will be removed from all fields, even if it has been confirmed thesis. Professor ID-ul ${id}?`)) return;
    
     try {
-        const response = await fetch("http://localhost:8081/delet_profesor_admin", {
+        const response = await fetch("https://backend-tau.onrender.com/delet_profesor_admin", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -258,7 +258,7 @@ async function HandleDelete_Confirm(id, id_stud) {
     if (!window.confirm(`Are you sure you want to delete this Confirmation? It will be removed from all fields, Confirmation ID-ul ${id}?`)) return;
    
     try {
-        const response = await fetch("http://localhost:8081/delete_confirmation_admin", {
+        const response = await fetch("https://backend-tau.onrender.com/delete_confirmation_admin", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

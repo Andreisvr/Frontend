@@ -215,7 +215,7 @@ function RegFormStudent() {
         console.log('Date trimitse',userDataToSend);
 
         try {
-            const response = await fetch('http://localhost:8081/reg_stud', {
+            const response = await fetch('https://backend-tau.onrender.com/reg_stud', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

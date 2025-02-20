@@ -44,7 +44,7 @@ export default function MyPropouses({
         e.stopPropagation();
         
         console.log(id);
-        fetch(`http://localhost:8081/withdrawApplication/${id}`, { 
+        fetch(`https://backend-tau.onrender.com/withdrawApplication/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })

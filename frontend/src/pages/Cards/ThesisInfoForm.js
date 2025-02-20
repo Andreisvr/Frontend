@@ -40,7 +40,7 @@ export default function ThesisInfo() {
         const checkFavorite = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:8081/check?userId=${userInfo.id}&thesisId=${thesisData.id}`, 
+                    `https://backend-tau.onrender.com/check?userId=${userInfo.id}&thesisId=${thesisData.id}`, 
                     {
                         method: 'GET', 
                         headers: {
@@ -100,7 +100,7 @@ export default function ThesisInfo() {
         }
         console.log(thesisData.isRequiredLetter,coverLetter.length);
         try {
-            const response = await fetch('http://localhost:8081/thesisinfo', { 
+            const response = await fetch('https://backend-tau.onrender.com/thesisinfo', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ export default function ThesisInfo() {
         if (!clicked) {
 
             try {
-                const response = await fetch('http://localhost:8081/fav', {
+                const response = await fetch('https://backend-tau.onrender.com/fav', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export default function ThesisInfo() {
 
         } else {
             try {
-                const response = await fetch('http://localhost:8081/fav', {
+                const response = await fetch('https://backend-tau.onrender.com/fav', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

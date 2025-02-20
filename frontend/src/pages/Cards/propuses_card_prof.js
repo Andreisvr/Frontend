@@ -34,7 +34,7 @@ export default function Propouses({
 
     function handlePropouse_Accepted(id) {
         console.log(`Accepting proposal with ID: ${id}`);
-        fetch(`http://localhost:8081/proposalAcceptConfirm/${id}`, {
+        fetch(`https://backend-tau.onrender.com/proposalAcceptConfirm/${id}`, {
             method: "PATCH", 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ state: "accepted" }), 
@@ -58,7 +58,7 @@ export default function Propouses({
         SendEmail('reject'); 
         console.log(`Rejecting proposal with ID: ${id}`);
        
-        fetch(`http://localhost:8081/proposaReject/${id}`, {
+        fetch(`https://backend-tau.onrender.com/proposaReject/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ state: "rejected" }), 
@@ -116,7 +116,7 @@ export default function Propouses({
             
             
         
-            const acceptResponse = await fetch("http://localhost:8081/acceptedApplications", {
+            const acceptResponse = await fetch("https://backend-tau.onrender.com/acceptedApplications", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData)

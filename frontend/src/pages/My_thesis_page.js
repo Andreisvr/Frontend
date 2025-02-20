@@ -30,7 +30,7 @@ export default function StudentChatPage() {
     
     useEffect(() => {
         if (logined && userInfo?.id) {
-            fetch(`http://localhost:8081/get_info_my_th_page/${userInfo.id}`, {
+            fetch(`https://backend-tau.onrender.com/get_info_my_th_page/${userInfo.id}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -49,18 +49,18 @@ export default function StudentChatPage() {
             let thesisFetch;
             
             if (confirmed.origin === "theses") {
-                thesisFetch = fetch(`http://localhost:8081/these_s/${confirmed.id_thesis}/${confirmed.id_prof}`, {
+                thesisFetch = fetch(`https://backend-tau.onrender.com/these_s/${confirmed.id_thesis}/${confirmed.id_prof}`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 }).then((res) => res.json());
             } else if (confirmed.origin === "propouse") {
-                thesisFetch = fetch(`http://localhost:8081/propus_e/${userInfo.id}/${confirmed.id_thesis}`, {
+                thesisFetch = fetch(`https://backend-tau.onrender.com/propus_e/${userInfo.id}/${confirmed.id_thesis}`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 }).then((res) => res.json());
             }
 
-            const profesorFetch = fetch(`http://localhost:8081/profesori_neverificat_i/${confirmed.id_prof}`, {
+            const profesorFetch = fetch(`https://backend-tau.onrender.com/profesori_neverificat_i/${confirmed.id_prof}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json());
@@ -78,7 +78,7 @@ export default function StudentChatPage() {
 
     useEffect(() => {
         if (profesor && userInfo?.id) {
-            fetch(`http://localhost:8081/read_messages/${profesor.id}/${userInfo.id}`, {
+            fetch(`https://backend-tau.onrender.com/read_messages/${profesor.id}/${userInfo.id}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -105,7 +105,7 @@ export default function StudentChatPage() {
             sender:'stud'
         };
 
-        fetch("http://localhost:8081/send_message", {
+        fetch("https://backend-tau.onrender.com/send_message", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),

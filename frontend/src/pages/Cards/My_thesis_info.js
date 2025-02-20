@@ -16,7 +16,7 @@ export default function ThesisModify() {
     const fetchData = async () => {
         if (thesis_id) {
             try {
-                const response = await fetch(`http://localhost:8081/thesis/${thesis_id}`);
+                const response = await fetch(`https://backend-tau.onrender.com/thesis/${thesis_id}`);
                 
                 if (!response.ok) {
                     throw new Error('Failed to fetch thesis data');
@@ -55,7 +55,7 @@ export default function ThesisModify() {
           end_date: thesisData.end_date ? formatDate(thesisData.end_date) : null,
       };
         console.log('data modfiy',formattedData);
-    fetch(`http://localhost:8081/update_thesis/${thesis_id}`, {
+    fetch(`https://backend-tau.onrender.com/update_thesis/${thesis_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
