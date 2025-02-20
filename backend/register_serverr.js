@@ -6,11 +6,14 @@ require("dotenv").config(); // Asigură-te că ai variabilele de mediu încărca
 
 const app = express();
 
-// CORS pentru a permite conexiunea cu frontend-ul pe Render
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://frontend-hj0o.onrender.com',
-    credentials: true
+    origin: ['https://frontend-hj0o.onrender.com'], // Permite doar frontend-ul tău
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true // Permite cookies și autentificare
 }));
+
 
 app.use(express.json());
 
