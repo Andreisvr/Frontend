@@ -6,7 +6,7 @@ html,body{
 .body_login {
   height: 100vh;
   width: 100vw;
-  background-image: url('/Users/Andrei_Sviridov/Desktop/React/frontend/src/images/wallpaperflare.com_wallpaper.jpg'); 
+  background-image: url('../images/wallpaperflare.com_wallpaper.jpg'); 
   background-size: cover;
   background-position: center; 
   display: flex;
