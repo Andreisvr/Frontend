@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1b56a9df.css",
+    "main.js": "/static/js/main.b66bfdf7.js",
+    "static/media/back3.jpg": "/static/media/back3.33c097bd32587f62f7ef.jpg",
+    "static/media/student_12525336.gif": "/static/media/student_12525336.e7632ad6fdb56d0f0816.gif",
+    "static/media/wallpaperflare.com_wallpaper.jpg": "/static/media/wallpaperflare.com_wallpaper.a1bdc75c50e6f92674e8.jpg",
+    "static/media/teach_12146114.gif": "/static/media/teach_12146114.a3c9e285ff7caed0fc0b.gif",
+    "static/media/Logo-UVT-2017-02.ico": "/static/media/Logo-UVT-2017-02.d074b422486ef99da362.ico",
+    "static/media/up_bar_back.png": "/static/media/up_bar_back.4446c830e2ffdcdd3305.png",
+    "index.html": "/index.html",
+    "main.1b56a9df.css.map": "/static/css/main.1b56a9df.css.map",
+    "main.b66bfdf7.js.map": "/static/js/main.b66bfdf7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1b56a9df.css",
+    "static/js/main.b66bfdf7.js"
+  ]
+}
