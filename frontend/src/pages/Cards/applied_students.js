@@ -135,7 +135,7 @@ export default function Applied({
         : `Hello, ${stud_name},\n\nUnfortunately, your application for the thesis "${thesisName}" was not accepted.`;  
     
         try {
-            const response = await fetch('http://localhost:5002/sendEmail', {
+            const response = await fetch('https://frontend-hj0o.onrender.com/sendEmail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: stud_email, subject, text })

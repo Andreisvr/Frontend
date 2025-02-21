@@ -197,7 +197,7 @@ export default function Applied_Info(){
         : `Hello, ${thesisData?.stud_name},\n\nUnfortunately, your application for the thesis with title :"${thesisData.title}" was not accepted.`;  
     
         try {
-            const response = await fetch('http://localhost:5002/sendEmail', {
+            const response = await fetch('https://frontend-hj0o.onrender.com/sendEmail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: thesisData?.stud_email, subject, text })

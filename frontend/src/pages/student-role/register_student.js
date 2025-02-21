@@ -66,7 +66,7 @@ function RegFormStudent() {
    
 
     try {
-      const response = await fetch('http://localhost:5002/reg_stud', {
+      const response = await fetch('https://frontend-hj0o.onrender.com/reg_stud', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
