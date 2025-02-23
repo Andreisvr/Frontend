@@ -42,7 +42,7 @@ function RestorePass() {
             setGeneratedCode(code);
             console.log('Codul de verificare:', code);
         // Trimitere cod către server pentru email
-            const sendCodeResponse = await fetch('https://frontend-hj0o.onrender.com/reg', {
+            const sendCodeResponse = await fetch('https://sender-emails.onrender.com/reg', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

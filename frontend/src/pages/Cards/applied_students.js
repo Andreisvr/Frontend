@@ -31,7 +31,7 @@ export default function Applied({
 
         SendEmail('rejected'); 
        
-        fetch(`"https://backend-08v3.onrender.com/accept/${id}`, { 
+        fetch(`https://backend-08v3.onrender.com/accept/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -135,7 +135,7 @@ export default function Applied({
         : `Hello, ${stud_name},\n\nUnfortunately, your application for the thesis "${thesisName}" was not accepted.`;  
     
         try {
-            const response = await fetch('https://frontend-hj0o.onrender.com/sendEmail', {
+            const response = await fetch('https://sender-emails.onrender.com/sendEmail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: stud_email, subject, text })

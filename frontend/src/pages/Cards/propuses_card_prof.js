@@ -158,7 +158,7 @@ export default function Propouses({
         : `Hello, ${stud_name},\n\nUnfortunately, your Propose for the thesis with title :"${thesisName}" was not accepted.`;  
     
         try {
-            const response = await fetch('https://frontend-hj0o.onrender.com/sendEmail', {
+            const response = await fetch('https://sender-emails.onrender.com/sendEmail', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: stud_email, subject, text })

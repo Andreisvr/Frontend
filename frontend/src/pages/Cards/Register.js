@@ -62,7 +62,7 @@ function RegFormStudent() {
     
 
     try {
-      const response = await fetch('https://frontend-hj0o.onrender.com/reg', {
+      const response = await fetch('https://sender-emails.onrender.com/reg', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
