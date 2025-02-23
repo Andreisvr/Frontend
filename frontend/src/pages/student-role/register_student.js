@@ -50,7 +50,7 @@ function RegFormStudent() {
     if(!emailSent){
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedCode(code);
-    console.log(`Verification code for ${UserData.email}: ${code}`);
+   // console.log(`Verification code for ${UserData.email}: ${code}`);
     SendEmail(UserData.email,code);
     setEmailSent(true);
   }

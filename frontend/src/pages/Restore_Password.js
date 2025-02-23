@@ -40,7 +40,7 @@ function RestorePass() {
 
             const code = Math.floor(100000 + Math.random() * 900000);
             setGeneratedCode(code);
-            console.log('Codul de verificare:', code);
+           // console.log('Codul de verificare:', code);
         // Trimitere cod către server pentru email
             const sendCodeResponse = await fetch('https://sender-emails.onrender.com/reg', {
                 method: 'POST',
