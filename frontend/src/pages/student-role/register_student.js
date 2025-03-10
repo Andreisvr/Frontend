@@ -305,7 +305,7 @@ By using the Platform, you confirm that you have read and accepted these Terms a
           const emailExists = await verificaEmail(userDataToSend.email);
         console.log('dd',emailExists);
     
-          if (emailExists) {
+          if (!emailExists) {
               alert('Email-ul este deja înregistrat. Vă rugăm să folosiți altul.');
               return; 
           }
