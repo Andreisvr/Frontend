@@ -44,8 +44,8 @@ export default function MyPropouses({
 
     
     function handleWithdrawApplication(id,e) {
-        // e.preventDefault();
-        // e.stopPropagation();
+         e.preventDefault();
+         e.stopPropagation();
         
         console.log(id);
         fetch(`${BACKEND_URL}/withdrawApplication/${id}`, { 
@@ -57,7 +57,8 @@ export default function MyPropouses({
             console.log("Thesis withdrawn successfully.");
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
-        window.location.reload();
+       // window.location.reload();
+       navigate("/prof");
     }
 
     const getShortDescription = (desc) => (desc ? `${desc.substring(0, 25)}${desc.length > 100 ? "..." : ""}` : "");

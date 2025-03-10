@@ -1,6 +1,8 @@
 // AddApplies.js
 import React ,{useEffect} from "react";
-//fgfkmdl,sas,ladfghfgdsaSDFGHJKLJHGFDSADSFGH
+
+import { useNavigate } from "react-router";
+
 export default function AddResponse({ 
     thesisName, 
     faculty, 
@@ -15,6 +17,8 @@ export default function AddResponse({
   
     id, 
  }) {
+
+    const navigate = useNavigate(); 
 
     const BACKEND_URL = 'https://backend-08v3.onrender.com';
  
@@ -34,7 +38,8 @@ export default function AddResponse({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
        
-        window.location.reload();
+        //window.location.reload();
+        navigate("/prof");
     }
 
 

@@ -54,11 +54,12 @@ export default function Propouses({
         })
         .catch(error => console.error("Error accepting thesis:", error));
        
-        window.location.reload();
+        //window.location.reload();
+        navigate("/prof");
     }
     
     async function handlePropouse_reject(id,e) {
-        // e.preventDefault();
+         e.preventDefault();
         // e.stopPropagation();
         SendEmail('reject'); 
         console.log(`Rejecting proposal with ID: ${id}`);
@@ -78,7 +79,9 @@ export default function Propouses({
         })
         .catch(error => console.error("Error rejecting thesis:", error));
        
-        window.location.reload();
+       // window.location.reload();
+       navigate("/prof");
+
     }
 
     

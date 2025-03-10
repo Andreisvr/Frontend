@@ -39,7 +39,8 @@ export default function AddResponse({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
        
-        window.location.reload();
+      //  window.location.reload();
+      navigate("/prof");
     }
 
     async function handleChangeState(stud_id) {
@@ -57,7 +58,8 @@ export default function AddResponse({
             })
             .catch(error => console.error("Error accepting thesis:", error));
            
-            window.location.reload();
+            //window.location.reload();
+            navigate("/prof");
         }
         
     }

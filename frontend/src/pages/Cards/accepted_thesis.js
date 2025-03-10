@@ -1,5 +1,7 @@
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
+
+import { useNavigate } from "react-router";
 
 export default function Accepted({ 
     thesisName, 
@@ -18,7 +20,7 @@ export default function Accepted({
      const BACKEND_URL = 'https://backend-08v3.onrender.com';
     //const BACKEND_URL = 'http://localhost:8081';
 
-
+     const navigate = useNavigate(); 
     const [allAplies, setAllAplies] = useState([]);
     const [theses, setTheses] = useState([]); 
    
@@ -35,7 +37,9 @@ export default function Accepted({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
        
-        window.location.reload();
+        //window.location.reload();
+        navigate("/prof");
+
         
     }
 

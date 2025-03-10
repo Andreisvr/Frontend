@@ -48,7 +48,7 @@ export default function Applied({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
             navigate('/prof');
-        window.location.reload();
+        //window.location.reload();
         
     }
 

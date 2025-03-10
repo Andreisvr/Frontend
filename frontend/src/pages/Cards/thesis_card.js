@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
 
+import { useNavigate } from "react-router";
+
 import "../../page_css/addthesis.css";
 
 import { AppContext } from "../../components/AppContext";
@@ -26,7 +28,7 @@ export default function AddThesis({
 
 //const BACKEND_URL = 'http://localhost:8081';
 
-
+ const navigate = useNavigate(); 
     const { name, email, logined, type } = useContext(AppContext);
 
     const [allAplies, setAllAplies] = useState([]);
@@ -53,7 +55,8 @@ export default function AddThesis({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
       
-        window.location.reload();
+      //  window.location.reload();
+      navigate("/prof");
     }
 
     function handleAplication_delet(id) {
@@ -69,7 +72,8 @@ export default function AddThesis({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
        
-        window.location.reload();
+       // window.location.reload();
+       navigate("/prof");
     }
 
     async function handleAcceptStudent(thesisId) {

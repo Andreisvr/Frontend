@@ -52,7 +52,8 @@ const handleModifyClick = () => {
         if (!response.ok) throw new Error("Failed to withdraw thesis");
       })
       .catch((error) => console.error("Error withdrawing thesis:", error));
-    window.location.reload();
+    //window.location.reload();
+    navigate("/prof");
   };
 
   const handleStop = (id) => {

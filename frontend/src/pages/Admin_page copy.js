@@ -157,7 +157,7 @@ export default function Admin_Page() {
             console.log("Succes:", result.message);
             alert("Teza a fost ștearsă cu succes!");
             
-            
+            navigate("/prof");
             window.location.reload();
         } catch (error) {
             console.error("Eroare:", error);
