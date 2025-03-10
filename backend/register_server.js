@@ -160,7 +160,7 @@ app.post('/reg', async (req, res) => {
 app.post('/reg_stud', async (req, res) => {
 
     const { name, email, pass, gmail_pass, faculty, program,year } = req.body;
-  
+      console.log(name, email, pass, gmail_pass, faculty, program,year);
    
     if (pass) {
         hashedPassword = await bcrypt.hash(pass,  process.env.SALT);
