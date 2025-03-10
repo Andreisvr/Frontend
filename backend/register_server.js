@@ -2,11 +2,10 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-require("dotenv").config(); // Asigură-te că ai variabilele de mediu încărcate
+require("dotenv").config();
 
 const app = express();
 
-// CORS pentru a permite conexiunea cu frontend-ul pe Render
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'https://frontend-hj0o.onrender.com',
     credentials: true
@@ -14,9 +13,8 @@ app.use(cors({
 
 app.use(express.json());
 
-// Pool de conexiuni pentru o conexiune mai stabilă
 const db = mysql.createPool({
-    connectionLimit: 10, // Permite mai multe conexiuni simultane
+    connectionLimit: 10, 
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -29,17 +27,48 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-// Testare conexiune la bază de date
+
 db.getConnection((err, connection) => {
     if (err) {
         console.error("Database connection failed: ", err.stack);
         return;
     }
     console.log("Connected to database.");
-    connection.release(); // Eliberăm conexiunea în pool
+    connection.release(); 
 });
+//-----------------------------------------------------------------------------------------------
 
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true
+// }));
 
+// app.use(express.json());
+
+// const db = mysql.createPool({
+//     connectionLimit: 10, 
+//     host: "localhost",
+//     user: "root",
+//     password: "", 
+//     database: "user_db_licenta"
+// });
+
+// const PORT = 8081;
+
+// app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+// });
+
+// db.getConnection((err, connection) => {
+//     if (err) {
+//         console.error("Database connection failed: ", err.stack);
+//         return;
+//     }
+//     console.log("Connected to database.");
+//     connection.release(); 
+// });
+
+//----------------------------------------------------------------------------
 
 app.get('/Verify_Profesor', (req, res) => {
     const email = req.query.email;
@@ -68,26 +97,23 @@ app.get('/Verify_Profesor', (req, res) => {
 });
 
 
-
 app.post('/reg', async (req, res) => {
     const { name, email, password, gmail_password, faculty, cv_link, entered } = req.body;
 
     let hashedPassword = '';
-  
-
-    if (password) {
-        try {
-         hashedPassword = await bcrypt.hash(password, 10);
-        } catch (error) {
-            console.error('Eroare la criptarea parolei:', error);
-            return res.status(500).json({ message: 'Eroare la criptarea parolei.' });
-        }
-    }
 
     try {
+       
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, process.env.SALT);
+        }
+
+        
         if (entered === 1) {
            
             await db.query('UPDATE profesorii SET entered = 1 WHERE email = ?', [email]);
+
+          
             await db.query('INSERT INTO profesorii_neverificati SET ?', {
                 faculty: faculty,
                 email: email,
@@ -98,6 +124,7 @@ app.post('/reg', async (req, res) => {
                 cv_link: cv_link,
                 prof: 1
             });
+
             res.json({ message: 'Profesorul a fost verificat cu succes!' });
         } else {
             
@@ -111,11 +138,13 @@ app.post('/reg', async (req, res) => {
                 cv_link: cv_link,
                 prof: 1
             });
+
             res.json({ message: 'Profesorul a fost înregistrat cu succes!' });
         }
     } catch (error) {
         console.error('Eroare la înregistrare:', error);
 
+      
         if (error.code === 'ER_DUP_ENTRY') {
             res.status(409).json({ message: 'Email-ul este deja înregistrat.' });
         } else {
@@ -126,13 +155,21 @@ app.post('/reg', async (req, res) => {
 
 
 
+
+
 app.post('/reg_stud', async (req, res) => {
 
     const { name, email, pass, gmail_pass, faculty, program,year } = req.body;
-    
-    const hashedPassword = await bcrypt.hash(pass, 10); 
+  
+   
+    if (pass) {
+        hashedPassword = await bcrypt.hash(pass,  process.env.SALT);
+    }
 
+    
     try {
+
+       
         
         await db.query('INSERT INTO studentii SET ?', {
             Faculty: faculty,
@@ -156,6 +193,47 @@ app.post('/reg_stud', async (req, res) => {
     }
 });
 
+
+app.get('/verifica-email_st', (req, res) => {
+    const { email } = req.query;  
+
+    const query_2 = 'SELECT * FROM profesorii_neverificati WHERE email = ?';
+    db.query(query_2, [email], (err, results) => {
+        if (err) {
+            console.error("Eroare la verificarea email-ului:", err);
+            return res.status(500).json({ error: "Eroare la server." });
+        }
+
+        if (results.length > 0) {
+           
+            return res.json({ exists: true });
+        } else {
+            
+            return res.json({ exists: false });
+        }
+    });
+});
+
+
+app.get('/verifica-email', (req, res) => {
+    const { email } = req.query;  
+
+    const query_2 = 'SELECT * FROM studentii WHERE email = ?';
+    db.query(query_2, [email], (err, results) => {
+        if (err) {
+            console.error("Eroare la verificarea email-ului:", err);
+            return res.status(500).json({ error: "Eroare la server." });
+        }
+
+        if (results.length > 0) {
+           
+            return res.json({ exists: true });
+        } else {
+            
+            return res.json({ exists: false });
+        }
+    });
+});
 
 
 app.post('/login', (req, res) => {
@@ -527,78 +605,74 @@ app.delete('/prof/:id', (req, res) => {
     const deleteAccepted = 'DELETE FROM AcceptedApplication WHERE id_thesis = ?';
     const deleteConfirmed = 'DELETE FROM confirmed WHERE id_thesis = ?';
 
-   
-    db.beginTransaction((err) => {
+    db.getConnection((err, connection) => {
         if (err) {
-            console.error("Error starting transaction:", err);
-            return res.status(500).json({ message: 'Error starting transaction' });
+            console.error("Error getting DB connection:", err);
+            return res.status(500).json({ message: 'Error getting DB connection' });
         }
 
-        db.query(deleteThesis, [thesisId], (err, result) => {
+        connection.beginTransaction((err) => {
             if (err) {
-                console.error("Error deleting thesis:", err);
-                return db.rollback(() => {
-                    res.status(500).json({ message: 'Error deleting thesis' });
-                });
+                console.error("Error starting transaction:", err);
+                connection.release();
+                return res.status(500).json({ message: 'Error starting transaction' });
             }
 
-            if (result.affectedRows === 0) {
-                return db.rollback(() => {
-                    res.status(404).json({ message: 'Thesis not found' });
-                });
-            }
-
-            
-            db.query(deleteAplies, [thesisId], (err) => {
+            connection.query(deleteThesis, [thesisId], (err, result) => {
                 if (err) {
-                    console.error("Error deleting from Applies:", err);
-                    return db.rollback(() => {
-                        res.status(500).json({ message: 'Error deleting from Applies' });
+                    console.error("Error deleting thesis:", err);
+                    return connection.rollback(() => {
+                        connection.release();
+                        res.status(500).json({ message: 'Error deleting thesis' });
                     });
                 }
 
-                db.query(deleteFavorites, [thesisId], (err) => {
-                    if (err) {
-                        console.error("Error deleting from favorite:", err);
-                        return db.rollback(() => {
-                            res.status(500).json({ message: 'Error deleting from favorite' });
-                        });
-                    }
+                if (result.affectedRows === 0) {
+                    return connection.rollback(() => {
+                        connection.release();
+                        res.status(404).json({ message: 'Thesis not found' });
+                    });
+                }
 
-                    db.query(deleteAccepted, [thesisId], (err) => {
-                        if (err) {
-                            console.error("Error deleting from AcceptedApplication:", err);
-                            return db.rollback(() => {
-                                res.status(500).json({ message: 'Error deleting from AcceptedApplication' });
-                            });
-                        }
+               
+                const deleteQueries = [deleteAplies, deleteFavorites, deleteAccepted, deleteConfirmed];
 
-                        db.query(deleteConfirmed, [thesisId], (err) => {
+                let queryIndex = 0;
+
+                function runNextQuery() {
+                    if (queryIndex < deleteQueries.length) {
+                        connection.query(deleteQueries[queryIndex], [thesisId], (err) => {
                             if (err) {
-                                console.error("Error deleting from confirmed:", err);
-                                return db.rollback(() => {
-                                    res.status(500).json({ message: 'Error deleting from confirmed' });
+                                console.error(`Error deleting from ${deleteQueries[queryIndex]}:`, err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).json({ message: 'Error deleting associated records' });
                                 });
                             }
-
-                           
-                            db.commit((err) => {
-                                if (err) {
-                                    console.error("Error committing transaction:", err);
-                                    return db.rollback(() => {
-                                        res.status(500).json({ message: 'Error committing transaction' });
-                                    });
-                                }
-
-                                res.status(200).json({ message: 'Thesis and associated records deleted successfully' });
-                            });
+                            queryIndex++;
+                            runNextQuery();
                         });
-                    });
-                });
+                    } else {
+                        connection.commit((err) => {
+                            if (err) {
+                                console.error("Error committing transaction:", err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).json({ message: 'Error committing transaction' });
+                                });
+                            }
+                            connection.release();
+                            res.status(200).json({ message: 'Thesis and associated records deleted successfully' });
+                        });
+                    }
+                }
+
+                runNextQuery();
             });
         });
     });
 });
+
 
 
 app.delete('/myaply/:id', (req, res) => {
@@ -1396,7 +1470,7 @@ app.patch('/update-password', async (req, res) => {
 
     try {
     
-        const hashedPassword = await bcrypt.hash(password, 10); 
+        const hashedPassword = await bcrypt.hash(password,  process.env.SALT); 
 
         
         const updateQuery =
@@ -1540,6 +1614,23 @@ app.get('/MyPropouse/:thesis_id', async (req, res) => {
    
 
     const sql = 'SELECT * FROM Propouses WHERE id = ?';
+
+    db.query(sql, [thesisId], (error, results) => {
+        if (error) {
+            console.error("Error geting  thesis:", error);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json(results);
+    });
+ 
+});
+
+app.get('/MyConfirm_Info/:thesis_id', async (req, res) => {
+    const thesisId = req.params.thesis_id;
+   
+   
+
+    const sql = 'SELECT * FROM theses WHERE id = ?';
 
     db.query(sql, [thesisId], (error, results) => {
         if (error) {
@@ -1700,6 +1791,21 @@ app.post('/send_message', (req, res) => {
   });
 
 
+  app.get('/student_info/:student_id', (req, res) => {
+    const {  student_id } = req.params;
+   
+   
+    const query = `SELECT * FROM studentii WHERE id = ? `;
+  
+    db.query(query, [student_id], (err, results) => {
+      if (err) {
+        return res.status(500).json({ message: 'Eroare la obținerea mesajelor' });
+      }
+      res.json(results); 
+    });
+  });
+
+
 
 
 
@@ -1837,98 +1943,93 @@ app.get("/thesis_admin", (req, res) => {
 
 
 app.delete("/thesis_admin", (req, res) => {
-  
-   
-    const {id} = req.body;
+    const { id } = req.body;
 
-    const deleteThesis = 'DELETE FROM theses WHERE id = ?';
-    const deleteAplies = 'DELETE FROM Applies WHERE id_thesis = ?';
-    const deleteFavorites = 'DELETE FROM favorite WHERE id_thesis = ?';
-    const deleteAccepted = 'DELETE FROM AcceptedApplication WHERE id_thesis = ?';
-    const deleteConfirmed = 'DELETE FROM confirmed WHERE id_thesis = ?';
+    if (!id) {
+        return res.status(400).json({ message: "Thesis ID is missing." });
+    }
 
-    
-    db.beginTransaction((err) => {
+    const deleteThesis = "DELETE FROM theses WHERE id = ?";
+    const deleteAplies = "DELETE FROM Applies WHERE id_thesis = ?";
+    const deleteFavorites = "DELETE FROM favorite WHERE id_thesis = ?";
+    const deleteAccepted = "DELETE FROM AcceptedApplication WHERE id_thesis = ?";
+    const deleteConfirmed = "DELETE FROM confirmed WHERE id_thesis = ?";
+
+    db.getConnection((err, connection) => {
         if (err) {
-            console.error("Error starting transaction:", err);
-            return res.status(500).json({ message: 'Error starting transaction' });
+            console.error("Error getting DB connection:", err);
+            return res.status(500).json({ message: "Error getting DB connection." });
         }
 
-        db.query(deleteThesis, [id], (err, result) => {
+        connection.beginTransaction((err) => {
             if (err) {
-                console.error("Error deleting thesis:", err);
-                return db.rollback(() => {
-                    res.status(500).json({ message: 'Error deleting thesis' });
-                });
+                console.error("Error starting transaction:", err);
+                connection.release();
+                return res.status(500).json({ message: "Error starting transaction." });
             }
 
-            if (result.affectedRows === 0) {
-                return db.rollback(() => {
-                    res.status(404).json({ message: 'deleteThesis Thesis not found' });
-                });
-            }
-
-          
-            db.query(deleteAplies, [id], (err) => {
+            connection.query(deleteThesis, [id], (err, result) => {
                 if (err) {
-                    console.error("Error deleting from Applies:", err);
-                    return db.rollback(() => {
-                        res.status(500).json({ message: 'Error deleting from Applies' });
+                    console.error("Error deleting thesis:", err);
+                    return connection.rollback(() => {
+                        connection.release();
+                        res.status(500).json({ message: "Error deleting thesis." });
                     });
                 }
 
-                db.query(deleteFavorites, [id], (err) => {
-                    if (err) {
-                        console.error("Error deleting from favorite:", err);
-                        return db.rollback(() => {
-                            res.status(500).json({ message: 'Error deleting from favorite' });
-                        });
-                    }
+                if (result.affectedRows === 0) {
+                    return connection.rollback(() => {
+                        connection.release();
+                        res.status(404).json({ message: "Thesis not found." });
+                    });
+                }
 
-                    db.query(deleteAccepted, [id], (err) => {
-                        if (err) {
-                            console.error("Error deleting from AcceptedApplication:", err);
-                            return db.rollback(() => {
-                                res.status(500).json({ message: 'Error deleting from AcceptedApplication' });
-                            });
-                        }
+                const deleteQueries = [deleteAplies, deleteFavorites, deleteAccepted, deleteConfirmed];
+                let queryIndex = 0;
 
-                        db.query(deleteConfirmed, [id], (err) => {
+                function runNextQuery() {
+                    if (queryIndex < deleteQueries.length) {
+                        connection.query(deleteQueries[queryIndex], [id], (err) => {
                             if (err) {
-                                console.error("Error deleting from confirmed:", err);
-                                return db.rollback(() => {
-                                    res.status(500).json({ message: 'Error deleting from confirmed' });
+                                console.error(`Error deleting from ${deleteQueries[queryIndex]}:`, err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).json({ message: "Error deleting associated records." });
                                 });
                             }
-
-                            
-                            db.commit((err) => {
-                                if (err) {
-                                    console.error("Error committing transaction:", err);
-                                    return db.rollback(() => {
-                                        res.status(500).json({ message: 'Error committing transaction' });
-                                    });
-                                }
-
-                                res.status(200).json({ message: 'Thesis and associated records deleted successfully' });
-                            });
+                            queryIndex++;
+                            runNextQuery();
                         });
-                    });
-                });
+                    } else {
+                        connection.commit((err) => {
+                            if (err) {
+                                console.error("Error committing transaction:", err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).json({ message: "Error committing transaction." });
+                                });
+                            }
+                            connection.release();
+                            res.status(200).json({ message: "Thesis and associated records deleted successfully." });
+                        });
+                    }
+                }
+
+                runNextQuery();
             });
         });
     });
 });
 
 
+
 app.delete("/delete_student_admin", (req, res) => {
     const { id } = req.body;
-   
+
     if (!id) {
         return res.status(400).json({ error: "Student ID is missing." });
     }
 
-   
     const deleteStudent = "DELETE FROM studentii WHERE id = ?";
     const deleteApplies = "DELETE FROM Applies WHERE id_stud = ?";
     const deleteFavorites = "DELETE FROM favorite WHERE id_user = ?";
@@ -1936,69 +2037,69 @@ app.delete("/delete_student_admin", (req, res) => {
     const deleteConfirmed = "DELETE FROM confirmed WHERE id_stud = ?";
     const deleteMessages = "DELETE FROM messages WHERE id_stud = ?";
 
-    db.beginTransaction((err) => {
+    db.getConnection((err, connection) => {
         if (err) {
-            console.error("Error starting transaction:", err);
-            return res.status(500).json({ error: "Error starting transaction." });
+            console.error("Error getting DB connection:", err);
+            return res.status(500).json({ error: "Error getting DB connection." });
         }
 
-        db.query(deleteStudent, [id], (err, results) => {
+        connection.beginTransaction((err) => {
             if (err) {
-                console.error("Error deleting student:", err);
-                return db.rollback(() => res.status(500).json({ error: "Error deleting student." }));
+                console.error("Error starting transaction:", err);
+                connection.release();
+                return res.status(500).json({ error: "Error starting transaction." });
             }
 
-            if (results.affectedRows === 0) {
-                return db.rollback(() => res.status(404).json({ error: "Student not found." }));
-            }
-
-            
-            db.query(deleteApplies, [id], (err) => {
+            connection.query(deleteStudent, [id], (err, results) => {
                 if (err) {
-                    console.error("Error deleting from Applies:", err);
-                    return db.rollback(() => res.status(500).json({ error: "Error deleting from Applies." }));
+                    console.error("Error deleting student:", err);
+                    return connection.rollback(() => {
+                        connection.release();
+                        res.status(500).json({ error: "Error deleting student." });
+                    });
+                }
+
+                if (results.affectedRows === 0) {
+                    return connection.rollback(() => {
+                        connection.release();
+                        res.status(404).json({ error: "Student not found." });
+                    });
                 }
 
                 
-                db.query(deleteFavorites, [id], (err) => {
-                    if (err) {
-                        console.error("Error deleting from favorite:", err);
-                        return db.rollback(() => res.status(500).json({ error: "Error deleting from favorite." }));
-                    }
+                const deleteQueries = [deleteApplies, deleteFavorites, deleteAccepted, deleteConfirmed, deleteMessages];
 
-                   
-                    db.query(deleteAccepted, [id], (err) => {
-                        if (err) {
-                            console.error("Error deleting from AcceptedApplication:", err);
-                            return db.rollback(() => res.status(500).json({ error: "Error deleting from AcceptedApplication." }));
-                        }
+                let queryIndex = 0;
 
-                       
-                        db.query(deleteConfirmed, [id], (err) => {
+                function runNextQuery() {
+                    if (queryIndex < deleteQueries.length) {
+                        connection.query(deleteQueries[queryIndex], [id], (err) => {
                             if (err) {
-                                console.error("Error deleting from confirmed:", err);
-                                return db.rollback(() => res.status(500).json({ error: "Error deleting from confirmed." }));
-                            }
-
-                            db.query(deleteMessages, [id], (err) => {
-                                if (err) {
-                                    console.error("Error deleting from messages:", err);
-                                    return db.rollback(() => res.status(500).json({ error: "Error deleting from messages." }));
-                                }
-
-                            
-                                db.commit((err) => {
-                                    if (err) {
-                                        console.error("Error committing transaction:", err);
-                                        return db.rollback(() => res.status(500).json({ error: "Error committing transaction." }));
-                                    }
-
-                                    res.json({ message: "Student and related records successfully deleted." });
+                                console.error(`Error deleting from ${deleteQueries[queryIndex]}:`, err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).json({ error: "Error deleting associated records." });
                                 });
-                            });
+                            }
+                            queryIndex++;
+                            runNextQuery();
                         });
-                    });
-                });
+                    } else {
+                        connection.commit((err) => {
+                            if (err) {
+                                console.error("Error committing transaction:", err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).json({ error: "Error committing transaction." });
+                                });
+                            }
+                            connection.release();
+                            res.json({ message: "Student and related records successfully deleted." });
+                        });
+                    }
+                }
+
+                runNextQuery();
             });
         });
     });
@@ -2035,17 +2136,13 @@ app.put("/Verify_Profesor", (req, res) => {
 });
 
 
-
 app.delete("/delet_profesor_admin", (req, res) => {
     const { id } = req.body;
-   
+
     if (!id) {
-        return res.status(400).json({ error: "ID-ul tezei lipsește." });
+        return res.status(400).json({ error: "ID-ul profesorului lipsește." });
     }
 
-
-
-   
     const deleteStudent = "DELETE FROM profesorii_neverificati WHERE id = ?";
     const deleteApplies = "DELETE FROM Applies WHERE id_prof = ?";
     const deleteFavorites = "DELETE FROM favorite WHERE id_user = ?";
@@ -2053,64 +2150,77 @@ app.delete("/delet_profesor_admin", (req, res) => {
     const deleteConfirmed = "DELETE FROM confirmed WHERE id_prof = ?";
     const deleteMessages = "DELETE FROM messages WHERE id_prof = ?";
 
-    db.beginTransaction((err) => {
+    
+    pool.getConnection((err, connection) => {
         if (err) {
-            console.error("Error starting transaction:", err);
-            return res.status(500).json({ error: "Error starting transaction." });
+            console.error("Error getting connection:", err);
+            return res.status(500).json({ error: "Error getting database connection." });
         }
 
-        db.query(deleteStudent, [id], (err, results) => {
+        
+        connection.beginTransaction((err) => {
             if (err) {
-                console.error("Error deleting student:", err);
-                return db.rollback(() => res.status(500).json({ error: "Error deleting student." }));
+                console.error("Error starting transaction:", err);
+                return connection.release(() => res.status(500).json({ error: "Error starting transaction." }));
             }
 
-            if (results.affectedRows === 0) {
-                return db.rollback(() => res.status(404).json({ error: "Student not found." }));
-            }
-
-            
-            db.query(deleteApplies, [id], (err) => {
+           
+            connection.query(deleteStudent, [id], (err, results) => {
                 if (err) {
-                    console.error("Error deleting from Applies:", err);
-                    return db.rollback(() => res.status(500).json({ error: "Error deleting from Applies." }));
+                    console.error("Error deleting from profesorii_neverificati:", err);
+                    return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error deleting from profesorii_neverificati." })));
                 }
 
-                
-                db.query(deleteFavorites, [id], (err) => {
+                if (results.affectedRows === 0) {
+                    return connection.rollback(() => connection.release(() => res.status(404).json({ error: "Profesor not found." })));
+                }
+
+               
+                connection.query(deleteApplies, [id], (err) => {
                     if (err) {
-                        console.error("Error deleting from favorite:", err);
-                        return db.rollback(() => res.status(500).json({ error: "Error deleting from favorite." }));
+                        console.error("Error deleting from Applies:", err);
+                        return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error deleting from Applies." })));
                     }
 
-                   
-                    db.query(deleteAccepted, [id], (err) => {
+                    
+                    connection.query(deleteFavorites, [id], (err) => {
                         if (err) {
-                            console.error("Error deleting from AcceptedApplication:", err);
-                            return db.rollback(() => res.status(500).json({ error: "Error deleting from AcceptedApplication." }));
+                            console.error("Error deleting from favorite:", err);
+                            return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error deleting from favorite." })));
                         }
 
                        
-                        db.query(deleteConfirmed, [id], (err) => {
+                        connection.query(deleteAccepted, [id], (err) => {
                             if (err) {
-                                console.error("Error deleting from confirmed:", err);
-                                return db.rollback(() => res.status(500).json({ error: "Error deleting from confirmed." }));
+                                console.error("Error deleting from AcceptedApplication:", err);
+                                return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error deleting from AcceptedApplication." })));
                             }
 
-                            db.query(deleteMessages, [id], (err) => {
+                           
+                            connection.query(deleteConfirmed, [id], (err) => {
                                 if (err) {
-                                    console.error("Error deleting from messages:", err);
-                                    return db.rollback(() => res.status(500).json({ error: "Error deleting from messages." }));
+                                    console.error("Error deleting from confirmed:", err);
+                                    return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error deleting from confirmed." })));
                                 }
 
-                            
-                                db.commit((err) => {
+                                
+                                connection.query(deleteMessages, [id], (err) => {
                                     if (err) {
-                                        console.error("Error committing transaction:", err);
-                                        return db.rollback(() => res.status(500).json({ error: "Error committing transaction." }));
+                                        console.error("Error deleting from messages:", err);
+                                        return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error deleting from messages." })));
                                     }
 
-                                    res.json({ message: "Profesor and related records successfully deleted." });
+                                    
+                                    connection.commit((err) => {
+                                        if (err) {
+                                            console.error("Error committing transaction:", err);
+                                            return connection.rollback(() => connection.release(() => res.status(500).json({ error: "Error committing transaction." })));
+                                        }
+
+                                        
+                                        connection.release();
+                                        res.json({ message: "Profesor and related records successfully deleted." });
+                                    });
                                 });
                             });
                         });
@@ -2120,7 +2230,6 @@ app.delete("/delet_profesor_admin", (req, res) => {
         });
     });
 });
-
 
 
 
