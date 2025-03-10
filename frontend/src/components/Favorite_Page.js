@@ -117,6 +117,7 @@ function FavoriteCard({ item }) {
     const { title, description, faculty, prof_name, id, study_program, state } = item;
     const [userInfo, setUserInfo] = useState(null);
     
+    const navigate = useNavigate(); 
     
     // const BACKEND_URL = 'https://backend-08v3.onrender.com';
     const BACKEND_URL = 'http://localhost:8081';
@@ -154,7 +155,8 @@ function FavoriteCard({ item }) {
         } catch (error) {
             console.error('Eroare în timpul ștergerii din favorite:', error);
         }
-        window.location.reload();
+        //window.location.reload();
+        navigate('/favorite');
     }
     
    
