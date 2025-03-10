@@ -95,6 +95,7 @@ export default function MyPropouse_Info()
 
 
     function handlePropouse_Accepted(id) {
+        
         console.log(`Accepting proposal with ID: ${id}`);
         fetch(`${BACKEND_URL}/proposalAcceptConfirm/${id}`, {
             method: "PATCH", 
@@ -112,14 +113,14 @@ export default function MyPropouse_Info()
         .catch(error => console.error("Error accepting thesis:", error));
         
         SendEmail('accepted'); 
-        window.location.reload();
+       // window.location.reload();
         navigate("/prof");
     }
     
     async function handlePropouse_reject(id,e) {
 
-      //  e.preventDefault();
-       // e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
         console.log(`Rejecting proposal with ID: ${id}`);
         fetch(`${BACKEND_URL}/proposaReject/${id}`, {
             method: "PATCH",
@@ -135,9 +136,12 @@ export default function MyPropouse_Info()
             );
         })
         .catch(error => console.error("Error rejecting thesis:", error));
-        navigate('/prof')
+       
         SendEmail('reject'); 
-        window.location.reload();
+
+        navigate('/prof')
+       
+      
     }
     
 
