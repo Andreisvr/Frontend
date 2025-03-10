@@ -119,8 +119,8 @@ function FavoriteCard({ item }) {
     
     const navigate = useNavigate(); 
     
-    // const BACKEND_URL = 'https://backend-08v3.onrender.com';
-    const BACKEND_URL = 'http://localhost:8081';
+     const BACKEND_URL = 'https://backend-08v3.onrender.com';
+    //const BACKEND_URL = 'http://localhost:8081';
 
     
     async function handleRemove(e) {
