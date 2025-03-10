@@ -105,7 +105,7 @@ app.post('/reg', async (req, res) => {
     try {
        
         if (password) {
-            hashedPassword = await bcrypt.hash(password, 10);
+            hashedPassword = await bcrypt.hash(password,  process.env.SALT);
         }
 
         
@@ -161,9 +161,9 @@ app.post('/reg_stud', async (req, res) => {
 
     const { name, email, pass, gmail_pass, faculty, program,year } = req.body;
       console.log(name, email, pass, gmail_pass, faculty, program,year);
-   
+    let hashedPassword = '';
     if (pass) {
-        hashedPassword = await bcrypt.hash(pass,  10);
+        hashedPassword = await bcrypt.hash(pass,   process.env.SALT);
     }
 
     
@@ -1470,7 +1470,7 @@ app.patch('/update-password', async (req, res) => {
 
     try {
     
-        const hashedPassword = await bcrypt.hash(password,  10); 
+        const hashedPassword = await bcrypt.hash(password,   process.env.SALT); 
 
         
         const updateQuery =
