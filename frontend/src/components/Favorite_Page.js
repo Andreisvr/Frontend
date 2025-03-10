@@ -156,7 +156,7 @@ function FavoriteCard({ item }) {
             console.error('Eroare în timpul ștergerii din favorite:', error);
         }
         //window.location.reload();
-        navigate('/favorite');
+        navigate('/prof');
     }
     
    
