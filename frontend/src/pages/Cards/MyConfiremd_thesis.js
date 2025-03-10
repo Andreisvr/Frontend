@@ -4,6 +4,11 @@ import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../components/AppContext";
 export default function MyConfirmed({ id_thesis, origin ,id_stud,date}) {
+
+     const BACKEND_URL = 'https://backend-08v3.onrender.com';
+   // const BACKEND_URL = 'http://localhost:8081';
+   
+ 
     const [data, setData] = useState(null); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,7 +18,7 @@ export default function MyConfirmed({ id_thesis, origin ,id_stud,date}) {
 
     useEffect(() => {
        
-            fetch(`https://backend-08v3.onrender.com/ConfirmInformation_Student/${id_stud}?origin=${origin}`, {
+            fetch(`${BACKEND_URL}/ConfirmInformation_Student/${id_stud}?origin=${origin}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -39,7 +44,7 @@ export default function MyConfirmed({ id_thesis, origin ,id_stud,date}) {
                 });
        
         
-        fetch(`https://backend-08v3.onrender.com/ConfirmInformation/${id_thesis}?origin=${origin}`, {
+        fetch(`${BACKEND_URL}/ConfirmInformation/${id_thesis}?origin=${origin}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })

@@ -24,6 +24,9 @@ export default function MyThesis({
   const [isToggled, setIsToggled] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const { handleThesisId } = useContext(AppContext); 
+ 
+  const BACKEND_URL = 'https://backend-08v3.onrender.com';
+ // const BACKEND_URL = 'http://localhost:8081';
   
   const navigate = useNavigate();  
 
@@ -41,7 +44,7 @@ const handleModifyClick = () => {
   };
 
   const handleWithdraw = (id) => {
-    fetch(`https://backend-08v3.onrender.com/prof/${id}`, {
+    fetch(`${BACKEND_URL}/prof/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     })
@@ -54,7 +57,7 @@ const handleModifyClick = () => {
 
   const handleStop = (id) => {
     if (state === "closed") return;
-    fetch(`https://backend-08v3.onrender.com/stop_thesis/${id}`, {
+    fetch(`${BACKEND_URL}/stop_thesis/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
     })
@@ -66,7 +69,7 @@ const handleModifyClick = () => {
 
   const handleOpen = (id) => {
     if (state === "closed") return;
-    fetch(`https://backend-08v3.onrender.com/open_thesis/${id}`, {
+    fetch(`${BACKEND_URL}/open_thesis/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
     })

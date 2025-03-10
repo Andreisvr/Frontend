@@ -9,11 +9,18 @@ export default function ThesisInfo_Admin() {
     const [thesisData, setThesisData] = useState(null);
    
     const navigate = useNavigate(); 
-   
+      const BACKEND_URL = 'https://backend-08v3.onrender.com';
+
+  //const BACKEND_URL = 'http://localhost:8081';
+
     const { thesis_id } = useContext(AppContext); 
     useEffect(() => {
-       
-        fetch(`https://backend-08v3.onrender.com/thesis_admin?id=${thesis_id}`)
+        const isAdmin = localStorage.getItem('admin');
+    if (isAdmin !== 'admin') {
+      
+      navigate("/login"); 
+    } else {
+        fetch(`${BACKEND_URL}/thesis_admin?id=${thesis_id}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setThesisData(data);
@@ -22,7 +29,7 @@ export default function ThesisInfo_Admin() {
                 .catch((error) => console.error("Error fetching theses:", error));
 
         
-    
+            }
     }, [thesis_id]);
 
    

@@ -14,6 +14,9 @@ export default function Accepted({
    
     id, 
  }) {
+  const BACKEND_URL = 'https://backend-08v3.onrender.com';
+
+//const BACKEND_URL = 'http://localhost:8081';
 
 
     const [allAplies, setAllAplies] = useState([]);
@@ -22,7 +25,7 @@ export default function Accepted({
     function handleAplication_delet(id) {
        
         console.log(id);
-        fetch(`https://backend-08v3.onrender.com/accept/${id}`, { 
+        fetch(`${BACKEND_URL}/accept/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -48,7 +51,7 @@ export default function Accepted({
             console.log(studentId);
     
             
-            const response = await fetch(`https://backend-08v3.onrender.com/aplies/${studentId}`, {
+            const response = await fetch(`${BACKEND_URL}/aplies/${studentId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -90,7 +93,7 @@ export default function Accepted({
             
     
         
-            const acceptResponse = await fetch("https://backend-08v3.onrender.com/acceptedApplications", {
+            const acceptResponse = await fetch(`${BACKEND_URL}/acceptedApplications`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(acceptedApplicationData)

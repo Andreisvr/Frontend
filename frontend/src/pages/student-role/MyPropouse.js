@@ -17,7 +17,11 @@ export default function MyPropouses({
     const { handleThesisId } = useContext(AppContext); 
     const navigate = useNavigate();
     
-    
+    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+
+  //const BACKEND_URL = 'http://localhost:8081';
+
+
     function MyPropouses_Info()
      { 
         //   console.log('merge')
@@ -40,11 +44,11 @@ export default function MyPropouses({
 
     
     function handleWithdrawApplication(id,e) {
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // e.stopPropagation();
         
         console.log(id);
-        fetch(`https://backend-08v3.onrender.com/withdrawApplication/${id}`, { 
+        fetch(`${BACKEND_URL}/withdrawApplication/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -53,6 +57,7 @@ export default function MyPropouses({
             console.log("Thesis withdrawn successfully.");
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
+        window.location.reload();
     }
 
     const getShortDescription = (desc) => (desc ? `${desc.substring(0, 25)}${desc.length > 100 ? "..." : ""}` : "");

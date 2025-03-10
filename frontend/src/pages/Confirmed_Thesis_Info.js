@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Confirmed_Thesis_Info() {
     const navigate = useNavigate();
      const { conf } = useContext(AppContext); 
-    console.log('obiect',conf);
+   
     
     
     function formatDate(isoDateString) {

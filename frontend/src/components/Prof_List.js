@@ -8,12 +8,15 @@ export default function ProfessorList({ faculty, onSelect }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
+  const BACKEND_URL = 'https://backend-08v3.onrender.com';
+    //const BACKEND_URL = 'http://localhost:8081';
+
     useEffect(() => {
         if (faculty) {
             setLoading(true); 
             const fetchProfessors = async () => {
                 try {
-                    const response = await fetch(`https://backend-08v3.onrender.com/get-professors?faculty=${faculty}`);
+                    const response = await fetch(`${BACKEND_URL}/get-professors?faculty=${faculty}`);
                     if (!response.ok) throw new Error('Failed to fetch professors');
                     const data = await response.json();
                     setProfessors(data);

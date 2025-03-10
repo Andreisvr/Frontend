@@ -8,6 +8,10 @@ function ThesisForm() {
     const { logined } = useContext(AppContext);
     const navigate = useNavigate();
 
+    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+    //const BACKEND_URL = 'http://localhost:8081';
+
+ 
     if (!logined) {
         console.log('Nu este logat');
     }
@@ -89,7 +93,7 @@ function ThesisForm() {
         console.log(adjustedData);
         
         try {
-            const response = await fetch('https://backend-08v3.onrender.com/add_form', {
+            const response = await fetch(`${BACKEND_URL}/add_form`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

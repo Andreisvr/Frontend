@@ -19,11 +19,11 @@ function notificationsLabel(count) {
     return `${count} notifications`;
 }
 
-function UpBar() {
+function UpBar_Log() {
 
     const { logined } = useContext(AppContext);
 
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+     const BACKEND_URL = 'https://backend-08v3.onrender.com';
     //const BACKEND_URL = 'http://localhost:8081';
 
 
@@ -92,7 +92,7 @@ function UpBar() {
     }, [showForm]);
 
     return (
-        <div className="upbar">
+        <div className="upbar-log">
             <IconButton className="logo_box" onClick={handleLogoClick}>
                 <img src={Logo} alt="Logo" className="logo" />
             </IconButton>
@@ -113,13 +113,13 @@ function UpBar() {
                         }
                     }}
                 >
-                    <FavoriteBorderIcon className='icon' />
+                    <FavoriteBorderIcon className='icon_login' />
                 </Badge>
             </IconButton>
 
             <div item>
                 <IconButton onClick={handleClickForm} className="personal_icon">
-                    <AccountBoxIcon className='icon' />
+                    <AccountBoxIcon className='icon_login' />
                 </IconButton>
             </div>
 
@@ -128,4 +128,4 @@ function UpBar() {
     );
 }
 
-export default UpBar;
+export default UpBar_Log;

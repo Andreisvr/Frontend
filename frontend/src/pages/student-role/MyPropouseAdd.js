@@ -11,6 +11,10 @@ export default function MyPropouseAdd() {
 
     const userInfo = localStorage.getItem('userInfo');
     const user_info = JSON.parse(userInfo);
+   const BACKEND_URL = 'https://backend-08v3.onrender.com';
+  //const SEND_URL = 'https://sender-emails.onrender.com';
+//const BACKEND_URL = 'http://localhost:8081';
+//const SEND_URL = 'http://localhost:5002';
 
     const [formData, setFormData] = useState({
         title: '',
@@ -92,7 +96,7 @@ export default function MyPropouseAdd() {
        
 
         try {
-            const response = await fetch(`https://backend-08v3.onrender.com/Propouses`, {
+            const response = await fetch(`${BACKEND_URL}/Propouses`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -18,6 +18,10 @@ export default function MyPropouse_Info()
     const [studyYear, setStudyYear] = useState([]);
     const [isLoading, setIsLoading] = useState(true); 
 
+ const BACKEND_URL = 'https://backend-08v3.onrender.com';
+  const SEND_URL = 'https://sender-emails.onrender.com';
+//const BACKEND_URL = 'http://localhost:8081';
+//const SEND_URL = 'http://localhost:5002';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,7 +31,7 @@ export default function MyPropouse_Info()
             }
 
             try {
-                const response = await fetch(`https://backend-08v3.onrender.com/MyPropouse/${thesis_id}`);
+                const response = await fetch(`${BACKEND_URL}/MyPropouse/${thesis_id}`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch thesis data');
@@ -58,7 +62,7 @@ export default function MyPropouse_Info()
         const fetchStudyYear = async () => {
             try {
                
-                const response = await fetch(`https://backend-08v3.onrender.com/student_info/${id}`);
+                const response = await fetch(`${BACKEND_URL}/student_info/${id}`);
                 
                 if (!response.ok) {
                     throw new Error("Failed to fetch study year");
@@ -92,7 +96,7 @@ export default function MyPropouse_Info()
 
     function handlePropouse_Accepted(id) {
         console.log(`Accepting proposal with ID: ${id}`);
-        fetch(`https://backend-08v3.onrender.com/proposalAcceptConfirm/${id}`, {
+        fetch(`${BACKEND_URL}/proposalAcceptConfirm/${id}`, {
             method: "PATCH", 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ state: "accepted" }), 
@@ -114,10 +118,10 @@ export default function MyPropouse_Info()
     
     async function handlePropouse_reject(id,e) {
 
-        e.preventDefault();
-        e.stopPropagation();
+      //  e.preventDefault();
+       // e.stopPropagation();
         console.log(`Rejecting proposal with ID: ${id}`);
-        fetch(`https://backend-08v3.onrender.com/proposaReject/${id}`, {
+        fetch(`${BACKEND_URL}/proposaReject/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ state: "rejected" }), 
@@ -171,7 +175,7 @@ export default function MyPropouse_Info()
            console.log('acceptedApplicationData',acceptedApplicationData);
            
        
-           const acceptResponse = await fetch("https://backend-08v3.onrender.com/acceptedApplications", {
+           const acceptResponse = await fetch(`${BACKEND_URL}/acceptedApplications`, {
                method: "POST",
                headers: { "Content-Type": "application/json" },
                body: JSON.stringify(acceptedApplicationData)
@@ -195,7 +199,7 @@ export default function MyPropouse_Info()
     e.preventDefault();
     e.stopPropagation();
    
-    fetch(`https://backend-08v3.onrender.com/withdrawApplication/${id}`, { 
+    fetch(`${BACKEND_URL}/withdrawApplication/${id}`, { 
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
     })
@@ -208,34 +212,60 @@ export default function MyPropouse_Info()
     };
 
 
-        async function SendEmail(answer) {
-            const subject = answer === 'accepted'  
+    async function SendEmail(answer) {
+        const subject = answer === 'accepted'  
             ? 'Congratulations! Your Propose has been accepted'  
             : 'We are sorry! Your Propose was not accepted';  
-
+    
         const text = answer === 'accepted'  
-            ? `Hello, ${thesisData?.stud_name},\n\nCongratulations! Your Propose for the thesis with title: "${thesisData?.title}" has been accepted.`  
-            : `Hello, ${thesisData?.stud_name},\n\nUnfortunately, your Propose for the thesis with title :"${thesisData?.title}" was not accepted.`;  
+            ? `Dear ${thesisData?.stud_name},  
+    
+        We are pleased to inform you that your propose for the thesis titled "${thesisData.title}" has been Accepted.  
 
-            try {
-                const response = await fetch('https://sender-emails.onrender.com/sendEmail', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: thesisData?.stud_email, subject, text })
-                });
+        Thesis Details:\n 
+        - Title: ${thesisData.title}  \n 
+        - Faculty: ${thesisData.faculty}  \n 
+        - Professor: ${thesisData.prof_name} \n  
+        - Email: ${thesisData.prof_email}\n   
+        - Link: https://frontend-hj0o.onrender.com\n 
+        Next steps: Please confirm this thesis if you choose to proceed with it, or you may wait for another acceptance and confirm the thesis you prefer.  
 
-                if (!response.ok) {
-                    throw new Error('Failed to send email');
-                }
+        Congratulations! We look forward to your success!  
 
-                console.log(`Email sent successfully to ${thesisData?.stud_email}`);
+        Best regards,\n  
+        [UVT]  \n 
+        [Thesis Team]`
 
-            } catch (error) {
-                console.error('Error sending email:', error);
+        : `Dear ${thesisData?.stud_name},  
+
+            We regret to inform you that your propose for the thesis titled "${thesisData.title}" has Not been accepted.  
+
+            We appreciate the effort and interest you have shown in this thesis topic. We encourage you to explore other available thesis opportunities and discuss alternative options with your faculty advisors.  
+
+            If you have any questions or need further guidance, please do not hesitate to reach out.  
+
+            Best wishes,\n 
+            [UVT]  \n 
+            [Thesis Team]`;
+    
+        try {
+            const response = await fetch(`${SEND_URL}/sendEmail`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: thesisData?.stud_email, subject, text })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to send email');
             }
-
-        
+    
+            console.log(`Email sent successfully to ${thesisData?.stud_email}`);
+    
+        } catch (error) {
+            console.error('Error sending email:', error);
         }
+    }
+    
 
    function formatDate(isoDateString) {
     const date = new Date(isoDateString);

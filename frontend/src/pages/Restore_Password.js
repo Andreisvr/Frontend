@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import UpBar_Log from '../components/up_bar_Login';
 
 import "../page_css/Login.css";
 function RestorePass() {
@@ -13,6 +13,12 @@ function RestorePass() {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [foundTable, setFoundTable] = useState('');
+
+    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+  const SEND_URL = 'https://sender-emails.onrender.com';
+// const BACKEND_URL = 'http://localhost:8081';
+// const SEND_URL = 'http://localhost:5002';
+
   const navigate = useNavigate();
 
   const handleEmailSubmit = async () => {
@@ -23,7 +29,7 @@ function RestorePass() {
     }
 
     try {
-        const response = await fetch(`https://backend-08v3.onrender.com/check-email/${email}`, {
+        const response = await fetch(`${BACKEND_URL}/check-email/${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,9 +46,8 @@ function RestorePass() {
 
             const code = Math.floor(100000 + Math.random() * 900000);
             setGeneratedCode(code);
-           // console.log('Codul de verificare:', code);
-        // Trimitere cod către server pentru email
-            const sendCodeResponse = await fetch('https://sender-emails.onrender.com/reg', {
+           
+            const sendCodeResponse = await fetch(`${SEND_URL}/reg`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,10 +62,10 @@ function RestorePass() {
 
             setStep(2);
         } else if (response.status === 403) {
-            // Utilizator logat cu Gmail
+           
             setEmailError(data.message || 'Cannot change password for Gmail accounts.');
         } else if (response.status === 404) {
-            // Email negăsit
+            
             setEmailError(data.message || 'Email not found');
         } else {
             setEmailError('An unexpected error occurred. Please try again.');
@@ -96,7 +101,7 @@ function RestorePass() {
     console.log('Submitting password update for:', email, 'in table:', foundTable);
 
     try {
-        const response = await fetch('https://backend-08v3.onrender.com/update-password', {
+        const response = await fetch(`${BACKEND_URL}/update-password`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -121,10 +126,13 @@ function RestorePass() {
     }
 };
 
-
+function handleGoLogin(){
+  navigate('/login');
+}
 
   return (
     <div className="body_login">
+      <UpBar_Log/>
       <form className="form_login">
         <h1 className="title">Restore Password</h1>
         {step === 1 && (
@@ -136,8 +144,11 @@ function RestorePass() {
               className="inputBox"
             />
             <label className="errorLabel">{emailError}</label>
-            <button type="button" onClick={handleEmailSubmit} className="Login_btn">
+            <button type="button" onClick={handleEmailSubmit} className="Login_btn" style={{width:'104%'}}>
               Submit
+            </button>
+            <button type="button" onClick={handleGoLogin} className="Login_btn" style={{width:'104%'}}>
+              Back
             </button>
           </div>
         )}

@@ -1,4 +1,7 @@
 export async  function GetAllApplies(id) {
+const BACKEND_URL = 'https://backend-08v3.onrender.com';
+//const BACKEND_URL = 'http://localhost:8081';
+
 
 
     try {
@@ -9,7 +12,7 @@ export async  function GetAllApplies(id) {
             return [];
         }
 
-        const response = await fetch(`https://backend-08v3.onrender.com/aplies/${studentId}`, {
+        const response = await fetch(`${BACKEND_URL}/aplies/${studentId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });

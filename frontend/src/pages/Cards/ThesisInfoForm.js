@@ -16,6 +16,11 @@ export default function ThesisInfo() {
     const navigate = useNavigate(); 
     const [showForm, setShowForm] = useState(false);
     const [coverLetter, setCoverLetter] = useState("");
+    
+    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+ 
+  //const BACKEND_URL = 'http://localhost:8081';
+
 
     useEffect(() => {
         const savedThesis = localStorage.getItem('selectedThesis');
@@ -40,7 +45,7 @@ export default function ThesisInfo() {
         const checkFavorite = async () => {
             try {
                 const response = await fetch(
-                    `https://backend-08v3.onrender.com/check?userId=${userInfo.id}&thesisId=${thesisData.id}`, 
+                    `${BACKEND_URL}/check?userId=${userInfo.id}&thesisId=${thesisData.id}`, 
                     {
                         method: 'GET', 
                         headers: {
@@ -100,7 +105,7 @@ export default function ThesisInfo() {
         }
         console.log(thesisData.isRequiredLetter,coverLetter.length);
         try {
-            const response = await fetch('https://backend-08v3.onrender.com/thesisinfo', { 
+            const response = await fetch(`${BACKEND_URL}/thesisinfo`, { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,7 +153,7 @@ export default function ThesisInfo() {
         if (!clicked) {
 
             try {
-                const response = await fetch('https://backend-08v3.onrender.com/fav', {
+                const response = await fetch(`${BACKEND_URL}/fav`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -171,7 +176,7 @@ export default function ThesisInfo() {
 
         } else {
             try {
-                const response = await fetch('https://backend-08v3.onrender.com/fav', {
+                const response = await fetch(`${BACKEND_URL}/fav`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './pages/main';
 import LogIn from './pages/Login';
 import UpBar from './components/up_bar';
 import Register from './pages/Cards/Register.js';
@@ -25,13 +24,16 @@ import Admin_Page from './pages/Admin_page copy.js';
 import ThesisInfo_Admin from './pages/ThesisInfoForm_Admin.js';
 import ThesisModify_Admin from './pages/My_thesis_info.js';
 import Confirmed_Thesis_Info from './pages/Confirmed_Thesis_Info.js';
+import MyConfirm_info_stud from './pages/student-role/Confirm_info.js';
+
+
 function App() {
 
     return (
         <Router>
             <UpBar />
             <Routes>
-                <Route path="/" element={<Main />} />
+                <Route path="/" element={<LogIn />} />
                 <Route path="/reg_stud" element={<RegFormStudent />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/restore_pass" element={<RestorePass />} />
@@ -55,6 +57,8 @@ function App() {
                 <Route path="/thesisinfo_admin" element={<ThesisInfo_Admin />} />
                 <Route path="/thesis_modify_admin" element={<ThesisModify_Admin />} />
                 <Route path="/confirmed_info_admin" element={<Confirmed_Thesis_Info />} />
+                <Route path="/reg_stud" element={<RegFormStudent />} />
+                <Route path="/Confirm_Info" element={<MyConfirm_info_stud />} />
                 
             </Routes>
             

@@ -9,15 +9,26 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 export default function ThesisModify_Admin() {
   
   const [thesisData, setThesisData] = useState(null);
-  const { thesis_id } = useContext(AppContext); 
+  const { thesis_id, } = useContext(AppContext);
+
+  const BACKEND_URL = 'https://backend-08v3.onrender.com';
+const SEND_URL = 'https://sender-emails.onrender.com';
+//const BACKEND_URL = 'http://localhost:8081';
+//const SEND_URL = 'http://localhost:5002'; 
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('Fetching thesis data for ID:', thesis_id);
+    const isAdmin = localStorage.getItem('admin');
+    if (isAdmin !== 'admin') {
+      
+      navigate("/login"); 
+    } else {
+    
     const fetchData = async () => {
         if (thesis_id) {
             try {
-                const response = await fetch(`https://backend-08v3.onrender.com/thesis/${thesis_id}`);
+                const response = await fetch(`${BACKEND_URL}/thesis/${thesis_id}`);
                 
                 if (!response.ok) {
                     throw new Error('Failed to fetch thesis data');
@@ -33,6 +44,9 @@ export default function ThesisModify_Admin() {
     };
 
     fetchData();
+  }
+
+    
   }, [thesis_id]);
 
 
@@ -61,7 +75,7 @@ const handleBack = () => {
           end_date: thesisData.end_date ? formatDate(thesisData.end_date) : null,
       };
         console.log('data modfiy',formattedData);
-    fetch(`https://backend-08v3.onrender.com/update_thesis/${thesis_id}`, {
+    fetch(`${BACKEND_URL}/update_thesis/${thesis_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -120,7 +134,7 @@ const handleBack = () => {
         </label>
         <label className="label_modify">
           Requirements:
-          <textarea
+          <textarea className="text_req"
             name="requirements"
             value={thesisData.requirements || ""}
             onChange={handleChange}

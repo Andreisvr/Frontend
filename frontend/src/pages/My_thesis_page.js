@@ -4,12 +4,23 @@ import { useRef } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { AppContext } from "../components/AppContext";
+import IconButton from '@mui/material/IconButton'; 
+
+
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 import "../page_css/My_thesis_page.css";
+
 export default function StudentChatPage() {
+    
     const { logined } = useContext(AppContext);
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+   const BACKEND_URL = 'https://backend-08v3.onrender.com';
+
+//const BACKEND_URL = 'http://localhost:8081';
+
 
     const messagesEndRef = useRef(null);
     const [confirmed, setConfirmed] = useState(null);
@@ -17,6 +28,7 @@ export default function StudentChatPage() {
     const [thesis, setThesis] = useState(null);
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);  
+    const [isInfoVisible, setIsInfoVisible] = useState(true);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -30,7 +42,7 @@ export default function StudentChatPage() {
     
     useEffect(() => {
         if (logined && userInfo?.id) {
-            fetch(`https://backend-08v3.onrender.com/get_info_my_th_page/${userInfo.id}`, {
+            fetch(`${BACKEND_URL}/get_info_my_th_page/${userInfo.id}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -49,18 +61,18 @@ export default function StudentChatPage() {
             let thesisFetch;
             
             if (confirmed.origin === "theses") {
-                thesisFetch = fetch(`https://backend-08v3.onrender.com/these_s/${confirmed.id_thesis}/${confirmed.id_prof}`, {
+                thesisFetch = fetch(`${BACKEND_URL}/these_s/${confirmed.id_thesis}/${confirmed.id_prof}`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 }).then((res) => res.json());
             } else if (confirmed.origin === "propouse") {
-                thesisFetch = fetch(`https://backend-08v3.onrender.com/propus_e/${userInfo.id}/${confirmed.id_thesis}`, {
+                thesisFetch = fetch(`${BACKEND_URL}/propus_e/${userInfo.id}/${confirmed.id_thesis}`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 }).then((res) => res.json());
             }
 
-            const profesorFetch = fetch(`https://backend-08v3.onrender.com/profesori_neverificat_i/${confirmed.id_prof}`, {
+            const profesorFetch = fetch(`${BACKEND_URL}/profesori_neverificat_i/${confirmed.id_prof}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             }).then((res) => res.json());
@@ -78,7 +90,7 @@ export default function StudentChatPage() {
 
     useEffect(() => {
         if (profesor && userInfo?.id) {
-            fetch(`https://backend-08v3.onrender.com/read_messages/${profesor.id}/${userInfo.id}`, {
+            fetch(`${BACKEND_URL}/read_messages/${profesor.id}/${userInfo.id}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -92,6 +104,9 @@ export default function StudentChatPage() {
     }, [profesor, userInfo?.id]);
 
 
+    const toggleInfoVisibility = () => {
+        setIsInfoVisible(!isInfoVisible);
+    };
 
     const getShortDescription = (desc) => (desc ? `${desc.substring(0, 35)}${desc.length > 100 ? "..." : ""}` : "");
 
@@ -105,7 +120,7 @@ export default function StudentChatPage() {
             sender:'stud'
         };
 
-        fetch("https://backend-08v3.onrender.com/send_message", {
+        fetch(`${BACKEND_URL}/send_message`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
@@ -158,8 +173,8 @@ export default function StudentChatPage() {
                  
             
                 <div className="info_mesaje">
-                    <p><strong></strong> {profesor?.name || ''}</p>
-                    <p><strong>,</strong> {getShortDescription(thesis?.description) || ''}</p>
+                    <p style={{ color: "#333" }}><strong>Name:</strong> {profesor?.name || ''}</p>
+                   
                 </div>
                 <div className="mesaje_input">
                     <input 
@@ -175,19 +190,39 @@ export default function StudentChatPage() {
             
             
 
+            
             <div className="info">
-                {profesor && (
-                    <div>
-                        <h3>Profesor</h3>
-                        <p><strong>Nume:</strong> {profesor.name}</p>
+               
+                <button className="dropdown-button" onClick={toggleInfoVisibility}>
+                    {isInfoVisible ? "Hide Information" : "Show Information"}
+                </button>
+
+                {isInfoVisible && (
+                    <div className="information">
+                        <p><strong>Profesor Name:</strong> {profesor?.name}</p>
                         <p>Email: 
-                            <a href={`mailto:${profesor.email}`} className="email-link">
-                                {profesor.email}
+                            <a href={`mailto:${profesor?.email}`} className="email-link">
+                                {profesor?.email}
                             </a>
                         </p>
-                        <h3>Teza</h3>
-                        <p><strong>Titlu:</strong> {getShortDescription(thesis.title)}</p>
-                        <p><strong>Descriere:</strong> {getShortDescription(thesis.description)}</p>
+                        <p><strong>Title:</strong> {thesis?.title}</p>
+                        <p><strong>Description:</strong> {thesis?.description}</p>
+                    </div>
+                )}
+
+                
+                {!isInfoVisible && (
+                    <div className="additional-buttons">
+                        <IconButton  className="calendar-icon"
+                            component="a" 
+                            href="https://calendar.google.com/calendar/u/0/r" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            <CalendarTodayIcon className="calendar-icon" />
+                        </IconButton>
+
+                        {/* <button className="gmail-toggle-button">On Gmail/Off Gmail</button> */}
                     </div>
                 )}
             </div>

@@ -16,7 +16,11 @@ export default function MyApplied({
  }) {
     const navigate = useNavigate();
     const { handleThesisId} = useContext(AppContext); 
+    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+   //const BACKEND_URL = 'http://localhost:8081';
    
+
+
     function formatDate(isoDateString) {
         const date = new Date(isoDateString);
         if (date.getTime() === 0) return ''; 
@@ -29,7 +33,7 @@ export default function MyApplied({
 
     const handleWithdraw = (id) => {
         
-        fetch(`https://backend-08v3.onrender.com/myaply/${id}`, { 
+        fetch(`${BACKEND_URL}/myaply/${id}`, { 
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         })

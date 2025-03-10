@@ -11,6 +11,9 @@ export default function Favorite() {
     const [error, setError] = useState(null);
     const navigate = useNavigate(); 
     const { logined } = useContext(AppContext);
+    const BACKEND_URL = 'https://backend-08v3.onrender.com';
+   // const BACKEND_URL = 'http://localhost:8081';
+
 
     useEffect(() => {
         if (logined) {
@@ -22,9 +25,9 @@ export default function Favorite() {
                 setLoading(false);
                 return;
             }
-
+           
             
-            fetch(`https://backend-08v3.onrender.com/Favorites/${userId}`, {
+            fetch(`${BACKEND_URL}/Favorites/${userId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -50,7 +53,7 @@ export default function Favorite() {
             
             Promise.all(
                 favoriteIds.map(id_thesis =>
-                    fetch(`https://backend-08v3.onrender.com/ThesisDetails/${id_thesis}`, {
+                    fetch(`${BACKEND_URL}/ThesisDetails/${id_thesis}`, {
                         method: "GET",
                         headers: { "Content-Type": "application/json" },
                     })
@@ -113,7 +116,12 @@ export default function Favorite() {
 function FavoriteCard({ item }) {
     const { title, description, faculty, prof_name, id, study_program, state } = item;
     const [userInfo, setUserInfo] = useState(null);
-   
+    
+    
+    // const BACKEND_URL = 'https://backend-08v3.onrender.com';
+    const BACKEND_URL = 'http://localhost:8081';
+
+    
     async function handleRemove(e) {
         e.preventDefault();
     
@@ -126,7 +134,7 @@ function FavoriteCard({ item }) {
         const userInfo = JSON.parse(storedUserInfo);
     
         try {
-            const response = await fetch('https://backend-08v3.onrender.com/fav', {
+            const response = await fetch(`${BACKEND_URL}/fav`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

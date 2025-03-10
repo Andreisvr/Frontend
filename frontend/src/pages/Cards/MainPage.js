@@ -15,6 +15,10 @@ import MyPropouses from "../student-role/MyPropouse.js";
 import Propouses from "./propuses_card_prof.js";
 import MenuIcon from "@mui/icons-material/Menu";
 
+const BACKEND_URL = 'https://backend-08v3.onrender.com';
+//const BACKEND_URL = 'http://localhost:8081';
+
+
 
 export default function Cabinet() {
     const { name,email, logined, type } = useContext(AppContext);
@@ -71,7 +75,7 @@ export default function Cabinet() {
 
   
     useEffect(() => {
-        fetch("https://backend-08v3.onrender.com/prof", {
+        fetch(`${BACKEND_URL}/prof`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -90,7 +94,7 @@ export default function Cabinet() {
         .catch((error) => console.error("Error fetching theses:", error));
 
         if (logined) {
-            fetch("https://backend-08v3.onrender.com/prof", {
+            fetch(`${BACKEND_URL}/prof`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -105,7 +109,7 @@ export default function Cabinet() {
             })
             .catch((error) => console.error("Error fetching user info:", error));
 
-            fetch("https://backend-08v3.onrender.com/applies", {
+            fetch(`${BACKEND_URL}/applies`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -141,7 +145,7 @@ export default function Cabinet() {
             alert("Not logined")
             return;
         }
-        fetch(`https://backend-08v3.onrender.com/show_My_applies/${studentId}`, {
+        fetch(`${BACKEND_URL}/show_My_applies/${studentId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -177,7 +181,7 @@ export default function Cabinet() {
             return;
         }
     
-        fetch(`https://backend-08v3.onrender.com/show_My_thesis/${profId}`, {
+        fetch(`${BACKEND_URL}/show_My_thesis/${profId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -234,7 +238,7 @@ export default function Cabinet() {
     
         const studentId = parsedUserInfo.id; 
        
-        fetch(`https://backend-08v3.onrender.com/Responses/${studentId}`, {
+        fetch(`${BACKEND_URL}/Responses/${studentId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -287,7 +291,7 @@ export default function Cabinet() {
        
        
        const Profid= id;
-        fetch(`https://backend-08v3.onrender.com/Accepted/${Profid}`, {
+        fetch(`${BACKEND_URL}/Accepted/${Profid}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -314,7 +318,7 @@ export default function Cabinet() {
 
            
             try {
-                const response = await fetch(`https://backend-08v3.onrender.com/getProposals/${id}`);
+                const response = await fetch(`${BACKEND_URL}/getProposals/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch proposals');
                 }
@@ -377,7 +381,7 @@ export default function Cabinet() {
         }
     
         try {
-            const response = await fetch(`https://backend-08v3.onrender.com/propoused/${name}`, {
+            const response = await fetch(`${BACKEND_URL}/propoused/${name}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -407,7 +411,7 @@ export default function Cabinet() {
       
         setViewType("MyChose");
        
-        fetch(`https://backend-08v3.onrender.com/confirmed?id_prof=${id}`, {
+        fetch(`${BACKEND_URL}/confirmed?id_prof=${id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -544,7 +548,8 @@ export default function Cabinet() {
         thesisName={respons.title}
         data={respons.data}
         faculty={respons.faculty}
-        study_program={respons.stud_program}
+        stud_email={respons.stud_email}
+        prof_name={respons.prof_name}
         student_name={respons.stud_name}
         professor_name={respons.prof_name}
         prof_email={respons.prof_email}

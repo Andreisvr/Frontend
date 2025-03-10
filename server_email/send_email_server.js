@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
     service: 'Gmail', 
     auth: {
+       
         user: process.env.EMAIL_USER, 
         pass: process.env.EMAIL_PASS,
     },
@@ -22,16 +23,17 @@ const transporter = nodemailer.createTransport({
  
 
 
-app.post('/reg_stud', (req, res) => {
+app.post('/reg_st', (req, res) => {
 
     
-    const { email, code } = req.body;
+    const { email, code,terms } = req.body;
 
     const mailOptions = {
-        from: 'andrei.sviridov00@e-uvt.ro', 
+        from:  process.env.EMAIL_USER, 
         to: email,
         subject: 'Cod de verificare',
-        text: `Codul tău de verificare este: ${code}`,
+        text: `Codul tău de verificare este: ${code} \n
+        Terms and Condition ${terms}`,
     };
    
     transporter.sendMail(mailOptions, (error, info) => {
@@ -48,15 +50,16 @@ app.post('/reg_stud', (req, res) => {
 
 app.post('/reg', (req, res) => {
 
-    console.log('Request received:');
+   
     
-    const { email, code } = req.body;
+    const { email, code,terms } = req.body;
 
     const mailOptions = {
-        from: 'andrei.sviridov00@e-uvt.ro', 
+        from:  process.env.EMAIL_USER, 
         to: email,
         subject: 'Cod de verificare',
-        text: `Codul tău de verificare este: ${code}`,
+        text: `Codul tău de verificare este: ${code} \n
+        Terms and Condition ${terms}`,
     };
    
 
@@ -74,12 +77,12 @@ app.post('/sendEmail', (req, res) => {
     const { email, subject, text } = req.body;
      console.log('accepted primit');
     const mailOptions = {
-        from: 'andrei.sviridov00@e-uvt.ro',
+        from:  process.env.EMAIL_USER,
         to: email,
         subject: subject,
         text: text,
     };
-        console.log('dddd',mailOptions);
+      
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('Error sending email:', error);

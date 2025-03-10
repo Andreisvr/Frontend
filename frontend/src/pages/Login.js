@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import "../page_css/Login.css";
 import GoogleBtn from '../components/login_btn';
 import axios from 'axios';
+import UpBar_Log from '../components/up_bar_Login';
 
 import "../images/wallpaperflare.com_wallpaper.jpg";
 import { AppContext } from '../components/AppContext';
@@ -16,13 +17,18 @@ function LogIn() {
   const navigate = useNavigate();
   const { handleLogin,handleAdmin } = useContext(AppContext); 
 
+     const BACKEND_URL = 'https://backend-08v3.onrender.com';
+
+//const BACKEND_URL = 'http://localhost:8081';
+
+
   const handleGmailLogin = async (decodedToken) => {
     const gmailEmail = decodedToken.email;
     const gmailName = `${decodedToken.given_name} ${decodedToken.family_name}`;
     const gmail_password =  decodedToken.jti;
     
     try {
-      const response = await axios.post('https://backend-08v3.onrender.com/login', {
+      const response = await axios.post(`${BACKEND_URL}/login`, {
         email: gmailEmail,
         pass : gmail_password
       });
@@ -30,16 +36,18 @@ function LogIn() {
       if (response.data.success) {
         const { name, email, prof, faculty, program } = response.data.user;
         if(name=='admin'){
-          console.log('name');
-          handleAdmin(name);
+         
+          handleAdmin('admin');
           navigate('/Admin_Page');
         }else{
         const userType = prof === 1 ? 'professor' : 'student'; 
-        console.log(email, gmailName, userType, program, faculty);
-
-        handleLogin(name, email, userType, userType === 'student' ? program : null, faculty); 
        
+        handleLogin(name, email, userType, userType === 'student' ? program : null, faculty); 
         navigate('/prof'); 
+      
+        handleAdmin('user');
+       
+       
       }
       } else {
         alert('Apărea o eroare');
@@ -77,7 +85,7 @@ function LogIn() {
     // }
 
     try {
-      const response = await axios.post('https://backend-08v3.onrender.com/login', {
+      const response = await axios.post(`${BACKEND_URL}/login`, {
           email,
           password,
       });
@@ -87,17 +95,15 @@ function LogIn() {
           const userType = prof === 1 ? 'professor' : 'student'; 
   
           if (name.toLowerCase() === 'admin') { 
-              // console.log('Admin detected');
-              handleAdmin(name);
+             
+              handleAdmin('admin');
               navigate('/Admin_Page');
           } else {
               handleLogin(name, email, userType, userType === 'student' ? program : null, faculty);
-  
-              if (userType === 'professor') {
-                  navigate('/prof');
-              } else {
-                  navigate('/student');  
-              }
+              handleAdmin('user');
+             
+                  navigate('/prof');  
+              
           }
       } else {
           setEmailError(response.data.message || 'Invalid credentials');
@@ -110,7 +116,7 @@ function LogIn() {
 
   return (
     <div className='body_login'>
-     
+     <UpBar_Log/>
       <form className='form_login'>
         <h1 className='title'>Login</h1>
         <div className={'field_container'}>
