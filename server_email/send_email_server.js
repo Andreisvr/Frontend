@@ -15,9 +15,11 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
     service: 'Gmail', 
     auth: {
+        user:'andrei.sviridov00@e-uvt.ro',
+        pass:'nqkx snel lqha hwgr',
        
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS,
+        // user: process.env.EMAIL_USER, 
+        // pass: process.env.EMAIL_PASS,
     },
 });
  
@@ -29,7 +31,7 @@ app.post('/reg_st', (req, res) => {
     const { email, code,terms } = req.body;
 
     const mailOptions = {
-        from:  process.env.EMAIL_USER, 
+        from:  process.env.EMAIL_USER || 'andrei.sviridov00@e-uvt.ro', 
         to: email,
         subject: 'Cod de verificare',
         text: `Codul tău de verificare este: ${code} \n
@@ -55,7 +57,7 @@ app.post('/reg', (req, res) => {
     const { email, code,terms } = req.body;
 
     const mailOptions = {
-        from:  process.env.EMAIL_USER, 
+        from:  process.env.EMAIL_USER || 'andrei.sviridov00@e-uvt.ro', 
         to: email,
         subject: 'Cod de verificare',
         text: `Codul tău de verificare este: ${code} \n
@@ -77,7 +79,7 @@ app.post('/sendEmail', (req, res) => {
     const { email, subject, text } = req.body;
      console.log('accepted primit');
     const mailOptions = {
-        from:  process.env.EMAIL_USER,
+        from:  process.env.EMAIL_USER || 'andrei.sviridov00@e-uvt.ro',
         to: email,
         subject: subject,
         text: text,

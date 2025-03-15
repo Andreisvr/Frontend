@@ -6,6 +6,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
 import { useNavigate } from "react-router-dom"; 
+import BACKEND_URL from "../../server_link";
+
 
 export default function ThesisInfo() {
     const [thesisData, setThesisData] = useState(null);
@@ -17,11 +19,7 @@ export default function ThesisInfo() {
     const [showForm, setShowForm] = useState(false);
     const [coverLetter, setCoverLetter] = useState("");
     
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
- 
-  //const BACKEND_URL = 'http://localhost:8081';
-
-
+   
     useEffect(() => {
         const savedThesis = localStorage.getItem('selectedThesis');
         const userinfo = localStorage.getItem('userInfo');

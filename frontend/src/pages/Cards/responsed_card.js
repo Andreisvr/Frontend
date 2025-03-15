@@ -3,6 +3,9 @@ import React ,{useEffect} from "react";
 
 import { useNavigate } from "react-router";
 
+import BACKEND_URL from "../../server_link";
+
+
 export default function AddResponse({ 
     thesisName, 
     faculty, 
@@ -20,11 +23,7 @@ export default function AddResponse({
 
     const navigate = useNavigate(); 
 
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
- 
-// const BACKEND_URL = 'http://localhost:8081';
-
-    
+  
     function handleResponse_delet(id) {
         console.log(id);
 

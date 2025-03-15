@@ -6,40 +6,10 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://frontend-hj0o.onrender.com',
-    credentials: true
-}));
 
-app.use(express.json());
-
-const db = mysql.createPool({
-    connectionLimit: 10, 
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
-
-const PORT = process.env.PORT || 8081;
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-
-db.getConnection((err, connection) => {
-    if (err) {
-        console.error("Database connection failed: ", err.stack);
-        return;
-    }
-    console.log("Connected to database.");
-    connection.release(); 
-});
-//-----------------------------------------------------------------------------------------------
-
+//===================================================================
 // app.use(cors({
-//     origin: 'http://localhost:3000',
+//     origin: process.env.FRONTEND_URL || 'https://frontend-hj0o.onrender.com',
 //     credentials: true
 // }));
 
@@ -47,17 +17,18 @@ db.getConnection((err, connection) => {
 
 // const db = mysql.createPool({
 //     connectionLimit: 10, 
-//     host: "localhost",
-//     user: "root",
-//     password: "", 
-//     database: "user_db_licenta"
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME
 // });
 
-// const PORT = 8081;
+// const PORT = process.env.PORT || 8081;
 
 // app.listen(PORT, () => {
 //     console.log(`Server running on port ${PORT}`);
 // });
+
 
 // db.getConnection((err, connection) => {
 //     if (err) {
@@ -67,6 +38,39 @@ db.getConnection((err, connection) => {
 //     console.log("Connected to database.");
 //     connection.release(); 
 // });
+
+
+//-----------------------------------------------------------------------------------------------
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
+app.use(express.json());
+
+const db = mysql.createPool({
+    connectionLimit: 10, 
+    host: "localhost",
+    user: "root",
+    password: "", 
+    database: "user_db_licenta"
+});
+
+const PORT = 8081;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+db.getConnection((err, connection) => {
+    if (err) {
+        console.error("Database connection failed: ", err.stack);
+        return;
+    }
+    console.log("Connected to database.");
+    connection.release(); 
+});
 
 //----------------------------------------------------------------------------
 
@@ -105,7 +109,8 @@ app.post('/reg', async (req, res) => {
     try {
        
         if (password) {
-            const saltRounds = parseInt(process.env.SALT); 
+          //  const saltRounds = parseInt(process.env.SALT); 
+            const saltRounds= 10;
             hashedPassword = await bcrypt.hash(password,  saltRounds);
         }
 
@@ -161,10 +166,11 @@ app.post('/reg', async (req, res) => {
 app.post('/reg_stud', async (req, res) => {
 
     const { name, email, pass, gmail_pass, faculty, program,year } = req.body;
-      console.log(name, email, pass, gmail_pass, faculty, program,year);
+
     let hashedPassword = '';
     if (pass) {
-        const saltRounds = parseInt(process.env.SALT); 
+       // const saltRounds = parseInt(process.env.SALT); 
+        const saltRounds= 10;
             hashedPassword = await bcrypt.hash(password,  saltRounds);
     }
 
@@ -1471,8 +1477,8 @@ app.patch('/update-password', async (req, res) => {
     }
 
     try {
-
-          const saltRounds = parseInt(process.env.SALT); 
+        const saltRounds= 10;
+          //const saltRounds = parseInt(process.env.SALT); 
         const hashedPassword = await bcrypt.hash(password,  saltRounds);
       
 
@@ -2155,7 +2161,7 @@ app.delete("/delet_profesor_admin", (req, res) => {
     const deleteMessages = "DELETE FROM messages WHERE id_prof = ?";
 
     
-    pool.getConnection((err, connection) => {
+    db.getConnection((err, connection) => {
         if (err) {
             console.error("Error getting connection:", err);
             return res.status(500).json({ error: "Error getting database connection." });

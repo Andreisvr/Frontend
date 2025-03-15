@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import PersonalForm from "./personal_cabinet";
 import Logo from "../images/Logo-UVT-2017-02.ico";
+import BACKEND_URL from "../server_link";
+
 import { AppContext } from "./AppContext";
 
 function notificationsLabel(count) {
@@ -23,9 +25,7 @@ function UpBar_Log() {
 
     const { logined } = useContext(AppContext);
 
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-    //const BACKEND_URL = 'http://localhost:8081';
-
+   
 
     const [showForm, setShowForm] = useState(false);
     const [favoriteCount, setFavoriteCount] = useState(0);

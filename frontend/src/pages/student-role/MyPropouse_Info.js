@@ -6,6 +6,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import "../../page_css/MyPropouse_Info.css";
 
 import { AppContext } from "../../components/AppContext";
+import BACKEND_URL from "../../server_link";
+import SEND_URL from "../../email_link";
 
 export default function MyPropouse_Info()
 {
@@ -18,10 +20,6 @@ export default function MyPropouse_Info()
     const [studyYear, setStudyYear] = useState([]);
     const [isLoading, setIsLoading] = useState(true); 
 
- const BACKEND_URL = 'https://backend-08v3.onrender.com';
-  const SEND_URL = 'https://sender-emails.onrender.com';
-//const BACKEND_URL = 'http://localhost:8081';
-//const SEND_URL = 'http://localhost:5002';
 
     useEffect(() => {
         const fetchData = async () => {

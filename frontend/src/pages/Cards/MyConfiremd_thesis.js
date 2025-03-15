@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../components/AppContext";
+import BACKEND_URL from "../../server_link";
+
 export default function MyConfirmed({ id_thesis, origin ,id_stud,date}) {
 
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-   // const BACKEND_URL = 'http://localhost:8081';
-   
- 
     const [data, setData] = useState(null); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router";
 import "../page_css/My_thesis_info.css";
+import BACKEND_URL from "../server_link";
 
 import { AppContext } from "../components/AppContext";
 
@@ -11,11 +12,7 @@ export default function ThesisModify_Admin() {
   const [thesisData, setThesisData] = useState(null);
   const { thesis_id, } = useContext(AppContext);
 
-  const BACKEND_URL = 'https://backend-08v3.onrender.com';
-const SEND_URL = 'https://sender-emails.onrender.com';
-//const BACKEND_URL = 'http://localhost:8081';
-//const SEND_URL = 'http://localhost:5002'; 
-
+  
   const navigate = useNavigate();
 
   useEffect(() => {

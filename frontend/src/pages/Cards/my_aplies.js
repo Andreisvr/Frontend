@@ -3,6 +3,8 @@ import React  from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../components/AppContext";
+import BACKEND_URL from "../../server_link";
+
 export default function MyApplied({ 
     thesisName, 
     faculty, 
@@ -16,8 +18,6 @@ export default function MyApplied({
  }) {
     const navigate = useNavigate();
     const { handleThesisId} = useContext(AppContext); 
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
-   //const BACKEND_URL = 'http://localhost:8081';
    
 
 

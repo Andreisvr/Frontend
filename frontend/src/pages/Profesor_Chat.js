@@ -6,7 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from '@mui/material/IconButton'; 
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import "../page_css/My_thesis_page.css";
-
+import BACKEND_URL from "../server_link";
 
 export default function ProfesorChatPage() {
 
@@ -21,10 +21,7 @@ export default function ProfesorChatPage() {
     const [stud,setStud] = useState('');
     const [isInfoVisible, setIsInfoVisible] = useState(true);
 
-   const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-//const BACKEND_URL = 'http://localhost:8081';
-
+ 
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

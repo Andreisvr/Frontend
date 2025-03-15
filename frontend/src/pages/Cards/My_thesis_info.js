@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router";
-
+import BACKEND_URL from "../../server_link";
 import "../../page_css/My_thesis_info.css";
 
 import { AppContext } from "../../components/AppContext";
@@ -10,8 +10,6 @@ export default function ThesisModify() {
   const [thesisData, setThesisData] = useState(null);
   const { thesis_id } = useContext(AppContext); 
   const navigate = useNavigate();
-  const BACKEND_URL = 'https://backend-08v3.onrender.com';
- //const BACKEND_URL = 'http://localhost:8081';
  
 
 

@@ -10,6 +10,7 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { useNavigate } from "react-router";
 import { AppContext } from "../components/AppContext";
 import CloseIcon from '@mui/icons-material/Close';
+import BACKEND_URL from "../server_link";
 
 export default function Admin_Page() {
     const { handleThesisId,handleConfirm,handleAdmin } = useContext(AppContext); 
@@ -23,10 +24,7 @@ export default function Admin_Page() {
     const [program, setProgram] = useState('');
     const [selectedList, setSelectedList] = useState('professors'); 
      
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-//const BACKEND_URL = 'http://localhost:8081';
-
+    
 
     const navigate = useNavigate();
     useEffect(() => {

@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleBtn from '../../components/login_btn';
 import "../../page_css/reg_stud.css";
+import BACKEND_URL from '../../server_link';
+import SEND_URL from '../../email_link';
 
 import FacultyList from '../../components/Faculty_List';
 
@@ -25,10 +27,6 @@ function RegFormStudent() {
   const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
 
-  const BACKEND_URL = 'https://backend-08v3.onrender.com';
- const SEND_URL = 'https://sender-emails.onrender.com';
-// const BACKEND_URL = 'http://localhost:8081';
-// const SEND_URL = 'http://localhost:5002';
 
   
   useEffect( () => {

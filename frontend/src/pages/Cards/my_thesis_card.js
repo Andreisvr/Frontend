@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-
+import BACKEND_URL from "../../server_link";
 import "../../page_css/my_thesis_cards.css";
 
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -25,9 +25,7 @@ export default function MyThesis({
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const { handleThesisId } = useContext(AppContext); 
  
-  const BACKEND_URL = 'https://backend-08v3.onrender.com';
- // const BACKEND_URL = 'http://localhost:8081';
-  
+
   const navigate = useNavigate();  
 
 

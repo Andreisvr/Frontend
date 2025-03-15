@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router';
 
 import { AppContext } from '../../components/AppContext';
 import "../../page_css/addthesis_form.css";
+import BACKEND_URL from '../../server_link';
 
 function ThesisForm() {
     const { logined } = useContext(AppContext);
     const navigate = useNavigate();
 
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
-    //const BACKEND_URL = 'http://localhost:8081';
-
+   
  
     if (!logined) {
         console.log('Nu este logat');

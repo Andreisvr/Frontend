@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../components/AppContext";
+import BACKEND_URL from "../../server_link";
 
 export default function MyPropouses({ 
 
@@ -17,10 +18,7 @@ export default function MyPropouses({
     const { handleThesisId } = useContext(AppContext); 
     const navigate = useNavigate();
     
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-  //const BACKEND_URL = 'http://localhost:8081';
-
+    
 
     function MyPropouses_Info()
      { 

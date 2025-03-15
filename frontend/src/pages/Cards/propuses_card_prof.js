@@ -2,6 +2,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../components/AppContext";
+import BACKEND_URL from "../../server_link";
+import SEND_URL from "../../email_link";
+
 
 export default function Propouses({ 
  
@@ -24,10 +27,6 @@ export default function Propouses({
     const [theses, setTheses] = useState([]); 
     const { handleThesisId } = useContext(AppContext); 
 
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-  const SEND_URL = 'https://sender-emails.onrender.com';
-   // const BACKEND_URL = 'http://localhost:8081';
-   // const SEND_URL = 'http://localhost:5002';
 
    const navigate = useNavigate();
 

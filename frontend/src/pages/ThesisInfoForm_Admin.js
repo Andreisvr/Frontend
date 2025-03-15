@@ -4,15 +4,13 @@ import "../page_css/ThesisInfo.css";
 import { AppContext } from "../components/AppContext";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
 import { useNavigate } from "react-router-dom"; 
+import BACKEND_URL from "../server_link";
 
 export default function ThesisInfo_Admin() {
     const [thesisData, setThesisData] = useState(null);
    
     const navigate = useNavigate(); 
-      const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-  //const BACKEND_URL = 'http://localhost:8081';
-
+     
     const { thesis_id } = useContext(AppContext); 
     useEffect(() => {
         const isAdmin = localStorage.getItem('admin');

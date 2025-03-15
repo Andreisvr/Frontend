@@ -8,6 +8,7 @@ import UpBar_Log from '../components/up_bar_Login';
 
 import "../images/wallpaperflare.com_wallpaper.jpg";
 import { AppContext } from '../components/AppContext';
+import BACKEND_URL from '../server_link';
 
 function LogIn() {
   const [email, setEmail] = useState('');
@@ -17,10 +18,7 @@ function LogIn() {
   const navigate = useNavigate();
   const { handleLogin,handleAdmin } = useContext(AppContext); 
 
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-//const BACKEND_URL = 'http://localhost:8081';
-
+   
 
   const handleGmailLogin = async (decodedToken) => {
     const gmailEmail = decodedToken.email;
@@ -142,11 +140,12 @@ function LogIn() {
           <Link className="link_forget" to="/restore_pass">Forget the password</Link>
           <Link className="link_register" to="/type">Register</Link>
         </div>
-        <div className='google_btn'>
-          <GoogleBtn onSuccessLogin={handleGmailLogin} />
-        </div>
+       
         <div className={'inputContainer'}>
           <input className={'Login_btn'} type="button" onClick={onButtonClick} value={'Log in'} />
+        
+          <GoogleBtn className='google_btn' onSuccessLogin={handleGmailLogin} />
+       
         </div>
       </form>
     </div>

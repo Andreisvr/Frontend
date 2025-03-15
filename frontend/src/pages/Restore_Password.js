@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UpBar_Log from '../components/up_bar_Login';
-
+import BACKEND_URL from '../server_link';
+import SEND_URL from '../email_link';
 import "../page_css/Login.css";
+
+
 function RestorePass() {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
@@ -14,10 +17,6 @@ function RestorePass() {
   const [passwordError, setPasswordError] = useState('');
   const [foundTable, setFoundTable] = useState('');
 
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
-  const SEND_URL = 'https://sender-emails.onrender.com';
-// const BACKEND_URL = 'http://localhost:8081';
-// const SEND_URL = 'http://localhost:5002';
 
   const navigate = useNavigate();
 

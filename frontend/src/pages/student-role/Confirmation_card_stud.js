@@ -3,6 +3,10 @@ import React ,{useEffect} from "react";
 import { AppContext } from "../../components/AppContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
+
+import BACKEND_URL from "../../server_link";
+import SEND_URL from "../../email_link";
+
 export default function AddResponse({ 
     thesisName, 
     faculty, 
@@ -21,11 +25,7 @@ export default function AddResponse({
  }) {
     const navigate = useNavigate();
     const { handleThesisId} = useContext(AppContext); 
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-     const SEND_URL = 'https://sender-emails.onrender.com';
-   // const BACKEND_URL = 'http://localhost:8081';
-  //  const SEND_URL = 'http://localhost:5002';
-    
+   
     function handleResponse_delet(id) {
         console.log(id);
 

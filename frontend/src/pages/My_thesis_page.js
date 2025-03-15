@@ -6,6 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { AppContext } from "../components/AppContext";
 import IconButton from '@mui/material/IconButton'; 
 
+import BACKEND_URL from "../server_link";
 
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
@@ -17,10 +18,7 @@ export default function StudentChatPage() {
     const navigate = useNavigate();
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-   const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-//const BACKEND_URL = 'http://localhost:8081';
-
+ 
 
     const messagesEndRef = useRef(null);
     const [confirmed, setConfirmed] = useState(null);

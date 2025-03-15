@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import "../../page_css/addthesis.css";
-
+import BACKEND_URL from "../../server_link";
 import { AppContext } from "../../components/AppContext";
 
 export default function AddThesis({ 
@@ -24,10 +24,6 @@ export default function AddThesis({
 }) { 
     
     
-          const BACKEND_URL = 'https://backend-08v3.onrender.com';
-
-//const BACKEND_URL = 'http://localhost:8081';
-
  const navigate = useNavigate(); 
     const { name, email, logined, type } = useContext(AppContext);
 

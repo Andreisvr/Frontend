@@ -1,10 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleBtn from '../../components/login_btn';
+import BACKEND_URL from '../../server_link';
+import SEND_URL from '../../email_link';
 
 import "../../page_css/reg_stud.css";
 import FacultyList from '../../components/Faculty_List';
+
+
+
 function RegFormStudent() {
+
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [faculty, setFaculty] = useState('');
@@ -27,10 +33,6 @@ function RegFormStudent() {
   const [studyYearError, setStudyYearError] = useState('');
 
   const navigate = useNavigate();
-  const BACKEND_URL = 'https://backend-08v3.onrender.com';
-  const SEND_URL = 'https://sender-emails.onrender.com';
-//const BACKEND_URL = 'http://localhost:8081';
-//const SEND_URL = 'http://localhost:5002';
 
  
   useEffect( () => {
@@ -369,6 +371,16 @@ By using the Platform, you confirm that you have read and accepted these Terms a
             <FacultyList onSelect={handleSelection} />
             <label className="errorLabel">{facultyError}</label>
           </div>
+          <div className={'field_container'}>
+              <select value={studyYear} onChange={(ev) => setStudyYear(ev.target.value)} className={'year_select'}>
+                <option value="">Select study year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
+              <label className="errorLabel">{studyYearError}</label>
+            </div>
           <br />
           <div className={'field_container'}>
             <input
@@ -412,16 +424,7 @@ By using the Platform, you confirm that you have read and accepted these Terms a
             />
             <label className="errorLabel">{confirmPasswordError}</label>
           </div>
-          <div className={'field_container'}>
-              <select value={studyYear} onChange={(ev) => setStudyYear(ev.target.value)} className={'year_select'}>
-                <option value="">Select study year</option>
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
-              </select>
-              <label className="errorLabel">{studyYearError}</label>
-            </div>
+         
         
             <GoogleBtn onSuccessLogin={onSuccessLogin} isRegister={true} />
 

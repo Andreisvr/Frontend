@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useEffect,useContext,useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
-
+import BACKEND_URL from "../../server_link";
 import "../../page_css/MyPropouse_Info.css";
 
 import { AppContext } from "../../components/AppContext";
@@ -18,10 +18,6 @@ export default function MyConfirm_info_stud()
     const [studyYear, setStudyYear] = useState([]);
     const [isLoading, setIsLoading] = useState(true); 
 
- const BACKEND_URL = 'https://backend-08v3.onrender.com';
-  
-//const BACKEND_URL = 'http://localhost:8081';
-//const SEND_URL = 'http://localhost:5002';
 
     useEffect(() => {
         const fetchData = async () => {

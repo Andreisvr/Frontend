@@ -15,10 +15,7 @@ import MyPropouses from "../student-role/MyPropouse.js";
 import Propouses from "./propuses_card_prof.js";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const BACKEND_URL = 'https://backend-08v3.onrender.com';
-//const BACKEND_URL = 'http://localhost:8081';
-
-
+import BACKEND_URL from "../../server_link.js";
 
 export default function Cabinet() {
     const { name,email, logined, type } = useContext(AppContext);

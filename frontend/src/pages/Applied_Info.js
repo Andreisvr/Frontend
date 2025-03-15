@@ -4,6 +4,8 @@ import { useEffect,useContext,useState} from "react";
 import { AppContext } from "../components/AppContext";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BACKEND_URL from "../server_link";
+import SEND_URL from "../email_link";
 
 export default function Applied_Info(){
     const navigate = useNavigate();
@@ -14,11 +16,7 @@ export default function Applied_Info(){
     const [allAplies, setAllAplies] = useState([]);
     const [theses, setTheses] = useState([]);
 
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-     const SEND_URL = 'https://sender-emails.onrender.com';
-   // const BACKEND_URL = 'http://localhost:8081';
-    //const SEND_URL = 'http://localhost:5002';
-
+   
 
     useEffect(() => {
         const fetchData = async () => {

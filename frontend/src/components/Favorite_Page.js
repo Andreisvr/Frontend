@@ -3,6 +3,7 @@ import { AppContext } from "./AppContext";
 import  "../page_css/Favorite_page.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
 import { useNavigate } from "react-router";
+import BACKEND_URL from "../server_link";
 
 export default function Favorite() {
     const [favoriteIds, setFavoriteIds] = useState([]); 
@@ -11,9 +12,8 @@ export default function Favorite() {
     const [error, setError] = useState(null);
     const navigate = useNavigate(); 
     const { logined } = useContext(AppContext);
-    const BACKEND_URL = 'https://backend-08v3.onrender.com';
-   // const BACKEND_URL = 'http://localhost:8081';
-
+   
+    
 
     useEffect(() => {
         if (logined) {
@@ -119,9 +119,7 @@ function FavoriteCard({ item }) {
     
     const navigate = useNavigate(); 
     
-     const BACKEND_URL = 'https://backend-08v3.onrender.com';
-    //const BACKEND_URL = 'http://localhost:8081';
-
+    
     
     async function handleRemove(e) {
         e.preventDefault();
