@@ -190,8 +190,8 @@ function ThesisForm() {
             </label>
 
            
-            <label>
-                <input
+            <label className='check_b'>
+                <input 
                     type="checkbox"
                     name="isLetterRequired"
                     checked={formData.isLetterRequired}

@@ -15,11 +15,10 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
     service: 'Gmail', 
     auth: {
-        user:'andrei.sviridov00@e-uvt.ro',
-        pass:'nqkx snel lqha hwgr',
        
-        // user: process.env.EMAIL_USER, 
-        // pass: process.env.EMAIL_PASS,
+       
+         user: process.env.EMAIL_USER, 
+         pass: process.env.EMAIL_PASS,
     },
 });
  

@@ -1,6 +1,12 @@
-
-html,body{
-  background-color:rgb(206, 206, 206) ;
+html, body {
+  background-color: rgb(206, 206, 206); 
+  background-image: url('../images/back3.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  height: 100%; 
+  margin: 0; 
+  overflow: auto;
 }
 
 .body_login {

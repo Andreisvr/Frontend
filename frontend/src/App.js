@@ -33,7 +33,7 @@ function App() {
         <Router>
             <UpBar />
             <Routes>
-                <Route path="/" element={<LogIn />} />
+                <Route path="/" element={<main />} />
                 <Route path="/reg_stud" element={<RegFormStudent />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/restore_pass" element={<RestorePass />} />

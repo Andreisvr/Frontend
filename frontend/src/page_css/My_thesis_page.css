@@ -82,9 +82,7 @@
     text-align: right;
 }
 
-
 .info {
-    
     position: fixed;
     top: 10%;
     left: 67%;
@@ -101,7 +99,6 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
 .dropdown-button {
     width: 100%;
     padding: 12px 20px;
@@ -114,7 +111,6 @@
     cursor: pointer;
     margin-bottom: 10px;
     border: 0.5px solid white;
-
 }
 
 .calendar-icon {
@@ -152,7 +148,6 @@ button {
     background-color: #218838;
 }
 
-
 .additional-buttons {
     display: flex;
     flex-direction: column;
@@ -160,7 +155,6 @@ button {
     align-items: center;
     margin-top: 10px;
 }
-
 
 .MuiIconButton-root {
     color: #007bff;
@@ -242,23 +236,24 @@ button {
 }
 
 @media (max-width: 768px) {
+    
     .body_chat_student {
-        flex-direction: column; 
+        flex-direction: column;
         justify-content: flex-start;
         align-items: center;
     }
 
     .chat_st {
-        width: 80vw; 
-        height: 70vh; 
+        width: 80vw;
+        height: 70vh;
         left: 0;
     }
 
     .info {
         width: 80vw;
-        height: 25vh; 
+        height: 25vh;
         left: 0;
-        top: 20%; 
+        top: 20%;
     }
 
     .mesaje_input {
@@ -271,7 +266,7 @@ button {
     }
 
     .info_mesaje {
-        width: 80vw; 
+        width: 80vw;
         left: 10%;
         top: 5%;
         height: 6vh;
