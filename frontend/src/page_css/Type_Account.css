@@ -1,32 +1,31 @@
 .body_choose {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    overflow: auto;
-  
+    align-items: center; 
+    height: 100vh;
+    padding: 0 5%;
 }
 
 .types {
     display: flex;
-    justify-content: center;
-    width: 100%;
+    justify-content: center; 
+    width: 100%; 
     gap: 7vw;
-    flex-wrap: wrap; 
 }
 
 .profesor, .student {
-    margin-top: 3%;
-    width: 45%; 
+    width: 40%;
     height: auto;
     background-color: lightgray;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
     border: 2px solid black;
     text-align: center;
     padding: 2vw;
 }
+
 
 .profesor:hover,
 .student:hover {
@@ -35,7 +34,7 @@
 }
 
 img {
-    width: 35vw; 
+    width: 25vw; 
     height: auto;
 }
 
@@ -60,6 +59,8 @@ p {
     color: rgb(5, 5, 5);
 }
 
+
+
 @media (max-width: 1024px) {
     .types {
         align-items: center;
@@ -67,28 +68,28 @@ p {
     }
     .text_choose {
         margin-top: 10%;
-        
     }
     .profesor, .student {
         width: 40%; 
     }
-
 }
+
+
 @media (max-width: 768px) {
     .types {
+        flex-direction: column; 
         align-items: center;
-        gap: 10px;
+        gap: 20px;
     }
     .text_choose {
         margin-top: 7%;
         font-size: 3vw;
     }
-
     .profesor, .student {
         width: 60%; 
-       
     }
 }
+
 
 @media (max-width: 480px) {
     .profesor, .student {

@@ -102,7 +102,9 @@ export default function StudentChatPage() {
     }, [profesor, userInfo?.id]);
 
 
-    const toggleInfoVisibility = () => {
+    const toggleInfoVisibility = (e) => {
+        e.preventDefault();
+        // e.stopPropagation();
         setIsInfoVisible(!isInfoVisible);
     };
 
@@ -147,70 +149,76 @@ export default function StudentChatPage() {
         .catch((err) => console.error("Eroare la trimiterea mesajului:", err));
     };
 
+    function go_back(){
+        navigate("/prof")
+        localStorage.removeItem('thesis_id');
+    
+        localStorage.removeItem('stud_id');
+        
+       }
+
     return (
-        <div className="body_chat_student">
-            <button className="back_button" onClick={() => navigate("/prof")}>
+        
+        <div className="body_thesisinfo">
+                    <div className="form-container">
+                    <button className="back_button" onClick={go_back}>
                 <ArrowBackIcon />
             </button>
-            <div className="chat_st">
-            <div className="mesaje_lista">
-                    {messages && messages.length > 0 ? (
-                        messages.map((msg, index) => (
-                            <div key={msg.id} className={`mesaj ${msg.sender === "stud" ? "right" : "left"}`}>
-                                <p>{msg.mesaje}</p>
-                                <p>
-                                    <strong>{msg.sender === "stud" ? "you" : "profesor"}</strong> - {new Date(msg.created_at).toLocaleString()}
-                                </p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No messages yet</p>
-                    )}
-                     <div ref={messagesEndRef} />
-                </div>
-                 
-            
-                <div className="info_mesaje">
-                    <p style={{ color: "#333" }}><strong>Name:</strong> {profesor?.name || ''}</p>
-                   
-                </div>
-                <div className="mesaje_input">
-                    <input 
-                        type="text" 
-                        className="mesaj_place" 
-                        value={message} 
-                        onChange={(e) => setMessage(e.target.value)} 
-                    />
-                    <SendIcon className="send_btn" onClick={sendMessage} />
-                </div>
-            </div>
-
-            
-            
-
-            
-            <div className="info">
-               
+                        <form className="left-form">
+                        <div className="info_mesaje">
+                            <p  style={{ color: "#333", fontSize: "small" }}><strong>Name:</strong> {profesor?.name || ''}</p>
+                        
+                        </div>
+                            <div className="mesaje_lista">
+                            {messages && messages.length > 0 ? (
+                                messages.map((msg, index) => (
+                                    <div key={msg.id} className={`mesaj ${msg.sender === "stud" ? "right" : "left"}`}>
+                                        <p>{msg.mesaje}</p>
+                                        <p>
+                                            <strong>{msg.sender === "stud" ? "you" : "profesor"}</strong> - {new Date(msg.created_at).toLocaleString()}
+                                        </p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No messages yet</p>
+                            )}
+                            <div ref={messagesEndRef} />
+                    
+                        
+                    </div>
+                    <div className="mesaje_input">
+                            <input 
+                                type="text" 
+                                className="mesaj_place" 
+                                value={message} 
+                                onChange={(e) => setMessage(e.target.value)} 
+                            />
+                            <SendIcon className="send_btn" onClick={sendMessage} />
+                        </div>
+                        </form>
+                        
+                        <form className="right-form">
+              
                 <button className="dropdown-button" onClick={toggleInfoVisibility}>
                     {isInfoVisible ? "Hide Information" : "Show Information"}
                 </button>
 
                 {isInfoVisible && (
                     <div className="information">
-                        <p><strong>Profesor Name:</strong> {profesor?.name}</p>
-                        <p>Email: 
-                            <a href={`mailto:${profesor?.email}`} className="email-link">
+                        <p style={{ color: "#333" }}><strong>Profesor Name:</strong> {profesor?.name}</p>
+                        <p style={{ color: "#333" }}>Email: 
+                            <a style={{ color: "#333" }} href={`mailto:${profesor?.email}`} className="email-link">
                                 {profesor?.email}
                             </a>
                         </p>
-                        <p><strong>Title:</strong> {thesis?.title}</p>
-                        <p><strong>Description:</strong> {thesis?.description}</p>
+                        <p style={{ color: "#333" }}><strong>Title:</strong> {thesis?.title}</p>
+                        <p style={{ color: "#333" }}><strong>Description:</strong> {thesis?.description}</p>
                     </div>
                 )}
 
                 
                 {!isInfoVisible && (
-                    <div className="additional-buttons">
+                    <div  style={{ color: "#333" }} className="additional-buttons">
                         <IconButton  className="calendar-icon"
                             component="a" 
                             href="https://calendar.google.com/calendar/u/0/r" 
@@ -220,10 +228,13 @@ export default function StudentChatPage() {
                             <CalendarTodayIcon className="calendar-icon" />
                         </IconButton>
 
-                        {/* <button className="gmail-toggle-button">On Gmail/Off Gmail</button> */}
+                      
                     </div>
                 )}
+                    
+                </form>
             </div>
         </div>
     );
 }
+

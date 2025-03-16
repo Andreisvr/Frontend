@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import BACKEND_URL from "../server_link";
 
 export default function ThesisInfo_Admin() {
+    
     const [thesisData, setThesisData] = useState(null);
    
     const navigate = useNavigate(); 
