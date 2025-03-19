@@ -19,42 +19,44 @@ function LogIn() {
   const { handleLogin,handleAdmin } = useContext(AppContext); 
 
    
-
   const handleGmailLogin = async (decodedToken) => {
     const gmailEmail = decodedToken.email;
     const gmailName = `${decodedToken.given_name} ${decodedToken.family_name}`;
-    const gmail_password =  decodedToken.jti;
-    
-    try {
-      const response = await axios.post(`${BACKEND_URL}/login`, {
-        email: gmailEmail,
-        pass : gmail_password
-      });
+    const gmail_password = decodedToken.jti;
 
-      if (response.data.success) {
-        const { name, email, prof, faculty, program } = response.data.user;
-        if(name=='admin'){
-         
-          handleAdmin('admin');
-          navigate('/Admin_Page');
-        }else{
-        const userType = prof === 1 ? 'professor' : 'student'; 
-       
-        handleLogin(name, email, userType, userType === 'student' ? program : null, faculty); 
-        navigate('/prof'); 
-      
-        handleAdmin('user');
-       
-       
-      }
-      } else {
-        alert('Apărea o eroare');
-      }
+    try {
+        const response = await fetch(`${BACKEND_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: gmailEmail,
+                pass: gmail_password
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            const { name, email, prof, faculty, program } = data.user;
+            if (name === 'admin') {
+                handleAdmin('admin');
+                navigate('/Admin_Page');
+            } else {
+                const userType = prof === 1 ? 'professor' : 'student';
+                handleLogin(name, email, userType, userType === 'student' ? program : null, faculty);
+                navigate('/prof');
+                handleAdmin('user');
+            }
+        } else {
+            alert('A apărut o eroare');
+        }
     } catch (error) {
-      console.log("Error logging in:", error);
-      setEmailError('An error occurred. Please try again later.');
+        console.error("Error logging in:", error);
+        setEmailError('An error occurred. Please try again later.');
     }
-  };
+};
 
   const onButtonClick = async () => {
     setEmailError('');
@@ -83,33 +85,39 @@ function LogIn() {
     // }
 
     try {
-      const response = await axios.post(`${BACKEND_URL}/login`, {
-          email,
-          password,
+      const response = await fetch(`${BACKEND_URL}/login`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              email,
+              password,
+          }),
       });
   
-      if (response.data.success) {
-          const { name, email, prof, faculty, program } = response.data.user;
-          const userType = prof === 1 ? 'professor' : 'student'; 
+      const data = await response.json();
   
-          if (name.toLowerCase() === 'admin') { 
-             
+      if (response.ok && data.success) {
+          const { name, email, prof, faculty, program } = data.user;
+          const userType = prof === 1 ? 'professor' : 'student';
+  
+          if (name.toLowerCase() === 'admin') {
               handleAdmin('admin');
               navigate('/Admin_Page');
           } else {
               handleLogin(name, email, userType, userType === 'student' ? program : null, faculty);
               handleAdmin('user');
-             
-                  navigate('/prof');  
-              
+              navigate('/prof');
           }
       } else {
-          setEmailError(response.data.message || 'Invalid credentials');
+          setEmailError(data.message || 'Invalid credentials');
       }
   } catch (error) {
       console.error("Error logging in:", error);
       setEmailError('An error occurred. Please try again later.');
   }
+  
 };
 
   return (

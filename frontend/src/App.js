@@ -8,7 +8,7 @@ import ThesisPropose from './pages/ThesisPropouse';
 import RegFormProf from './unused/Regist_Form_Prof.js';
 import ThesisInfo from './pages/Cards/ThesisInfoForm.js';
 import Cabinet from './pages/Cards/MainPage.js';
-import RegisterStud from './unused/Register_Form_Stud.js';
+
 import ThesisProposalForm from './pages/Cards/add_thesis_form.js';
 import RegFormStudent from './pages/student-role/register_student';
 import MyPropouseAdd from './pages/student-role/MyPropouseAdd';
@@ -40,7 +40,7 @@ function App() {
                 <Route path="/reg" element={<Register />} />
                 <Route path="/type" element={<Type_account />} />
                 <Route path="/reg_form" element={<RegFormProf />} />
-                <Route path="/reg_form_stud" element={<RegisterStud/>} />
+   
                 <Route path="/thesis" element={<ThesisPropose />} />
                 <Route path="/thesisinfo" element={<ThesisInfo />} />
                 <Route path="/prof" element={<Cabinet/>} />

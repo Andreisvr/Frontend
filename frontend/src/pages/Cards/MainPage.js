@@ -340,10 +340,10 @@ export default function Cabinet() {
 
         }
 
-    const handleSelection = (faculty, program) => {
-        setSelectedFaculty(faculty);
-        setSelectedProgram(program);
-    };
+    // const handleSelection = (faculty, program) => {
+    //     setSelectedFaculty(faculty);
+    //     setSelectedProgram(program);
+    // };
     
 
     const handleSearch = () => {
@@ -510,7 +510,7 @@ export default function Cabinet() {
                     </div>
 
                 </div>
-               
+              
                 <div className={`bottom_container ${showLeftContainer ? "default" : "full-width"}`}>
                 {
   viewType === "ALL" && theses.length > 0 ? (
