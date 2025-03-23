@@ -252,9 +252,9 @@ export default function ThesisInfo() {
 
                     {applied && <p className="applied-message">You have already applied.</p>}
 
-                        <span className={`status ${clicked ? "status-open" : "status-closed"}`}>
+                        {/* <span className={`status ${clicked ? "status-open" : "status-closed"}`}>
                             {thesisData.state}
-                        </span>
+                        </span> */}
                         <button className="favorite-button" onClick={handleClick}>
                             {clicked ? (
                                 <FavoriteIcon fontSize="large" className="icon-clicked" />

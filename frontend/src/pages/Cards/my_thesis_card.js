@@ -112,7 +112,7 @@ const handleModifyClick = () => {
 
   return (
     <form className="applied_form">
-      <p className="text title">TitleM: {getShortDescription(thesisName)}</p>
+      <p className="text title">Title: {getShortDescription(thesisName)}</p>
       <p className="text">
         Faculty: {faculty} {study_program && `Program: ${study_program}`}
       </p>

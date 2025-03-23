@@ -566,6 +566,7 @@ export default function Cabinet() {
         stud_name={aply.stud_name}
         prof_email={aply.prof_email}
         professor_name={aply.prof_name}
+        professor_id={aply.id_prof}
         viewType={viewType}
         id={aply.id}
       />
@@ -582,6 +583,7 @@ export default function Cabinet() {
         stud_email={aply.stud_email}
         stud_name={aply.stud_name}
         professor_name={aply.prof_name}
+        stud_id={aply.id_stud}
         viewType={viewType}
         study_year={aply.study_year}
         id={aply.id}
@@ -641,7 +643,7 @@ export default function Cabinet() {
         key={application.id}
         thesisName={application.title}
         professor_name={application.prof_name}
-        professor_id={application.professor_id}
+        professor_id={application.prof_id}
        
         applied_data={application.date} 
         description={application.description}

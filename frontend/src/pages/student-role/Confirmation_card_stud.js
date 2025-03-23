@@ -26,8 +26,8 @@ export default function AddResponse({
     const navigate = useNavigate();
     const { handleThesisId} = useContext(AppContext); 
    
-    function handleResponse_delet(id) {
-        console.log(id);
+    async function handleResponse_delet(id) {
+       
 
         fetch(`${BACKEND_URL}/response/${id}`, { 
             method: "DELETE",
@@ -38,9 +38,9 @@ export default function AddResponse({
            
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
-       
-      //  window.location.reload();
-      navigate("/prof");
+        
+      
+    
     }
 
     async function handleChangeState(stud_id) {
@@ -57,9 +57,9 @@ export default function AddResponse({
                
             })
             .catch(error => console.error("Error accepting thesis:", error));
+            
+            
            
-            //window.location.reload();
-            navigate("/prof");
         }
         
     }
@@ -86,8 +86,7 @@ export default function AddResponse({
                 cover_letter:cover_letter
             };
     
-            console.log("1Data accepted:", acceptedApplicationData);
-    
+           
             const confirmResponse = await fetch(`${BACKEND_URL}/confirmation`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -102,10 +101,14 @@ export default function AddResponse({
                 throw new Error("Failed to confirm application");
             }
     
-            console.log("Application confirmed successfully:", acceptedApplicationData);
+           
             handleChangeState(studentId)
             SendEmail();
-              handleResponse_delet(studentId);
+            handleResponse_delet(studentId);
+            
+            await new Promise((resolve) => setTimeout(resolve, 350));
+
+            window.location.reload();
     
         } catch (error) {
             console.error("Error in Confirm Aplication Student:", error);
@@ -141,11 +144,25 @@ export default function AddResponse({
                     throw new Error("Failed to confirm application");
                 }
         
-                console.log("Application confirmed successfully:", acceptedApplicationData);
-        
-                   handleChangeState(studentId)
-                   SendEmail();
-                 handleResponse_delet(studentId);
+                
+                const profResponse = await fetch(`${BACKEND_URL}/getProfessor/${id_prof}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+                
+                if (!profResponse.ok) {
+                    throw new Error("Failed to fetch professor details");
+                }
+                
+                const professorData = await profResponse.json();
+              
+                handleChangeState(studentId)
+                SendEmail(professorData);
+                handleResponse_delet(studentId);
+               
+                await new Promise((resolve) => setTimeout(resolve, 350));
+
+               window.location.reload();
         
             } catch (error) {
                 console.error("Error in  Confirm Propouse:", error);
@@ -160,7 +177,7 @@ export default function AddResponse({
     }
 
 
-    async function SendEmail() {
+    async function SendEmail(professorData) {
         let subject = 'Congratulations! Your Thesis Application Has Been Confirmed';
 
         let text = `Dear ${student_name},\n\n
@@ -187,17 +204,17 @@ export default function AddResponse({
         }
 
         subject = 'Student Thesis Confirmation';
-
+        
         text = `Dear Professor ${prof_name},\n\n
         We are happy to inform you that your student, ${student_name} (email: ${stud_email}), has successfully confirmed their thesis titled: "${thesisName}". 
         This thesis is now officially assigned to you as the supervising professor. Please feel free to reach out to the student for any further steps or assistance.\n\n
         Kind regards,\nThe Thesis Department`;
-
+        
         try {
             const response = await fetch(`${SEND_URL}/sendEmail`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: prof_email, subject, text})
+                body: JSON.stringify({ email: professorData.email, subject, text})
             });
 
             if (!response.ok) {

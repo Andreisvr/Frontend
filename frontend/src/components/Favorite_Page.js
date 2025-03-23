@@ -115,7 +115,6 @@ export default function Favorite() {
 
 function FavoriteCard({ item }) {
     const { title, description, faculty, prof_name, id, study_program, state } = item;
-    const [userInfo, setUserInfo] = useState(null);
     
     const navigate = useNavigate(); 
     
@@ -153,8 +152,10 @@ function FavoriteCard({ item }) {
         } catch (error) {
             console.error('Eroare în timpul ștergerii din favorite:', error);
         }
-        //window.location.reload();
-        navigate('/prof');
+        await new Promise((resolve) => setTimeout(resolve, 350));
+
+        window.location.reload();
+        //navigate('/prof');
     }
     
    

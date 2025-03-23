@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router';
 import { AppContext } from '../../components/AppContext';
 import "../../page_css/addthesis_form.css";
 import BACKEND_URL from '../../server_link';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
+
 
 function ThesisForm() {
     const { logined } = useContext(AppContext);
@@ -23,6 +25,10 @@ function ThesisForm() {
         requirements: '',
         cover_letter: '',
     });
+
+    const handleBack = () => {
+        navigate("/prof");
+    };
 
     const initialFormData = {
         title: '',
@@ -114,6 +120,7 @@ function ThesisForm() {
 
     return (
         <form className="thesis-form" onSubmit={handleSubmit}>
+           
            <label>
                 Title:
                 <input 

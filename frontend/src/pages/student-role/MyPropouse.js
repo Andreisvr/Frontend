@@ -15,17 +15,20 @@ export default function MyPropouses({
     id
 }) 
 {
-    const { handleThesisId } = useContext(AppContext); 
+    const { handleThesisId,handleStud_id } = useContext(AppContext); 
     const navigate = useNavigate();
-    
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     
 
     function MyPropouses_Info()
      { 
         //   console.log('merge')
         handleThesisId(id); 
+        handleStud_id(professor_id);
         navigate('/MyPropouse_Info');
     }
+
+     
 
 
     if(state =='accepted' || state =='confirmed' ){
@@ -41,9 +44,9 @@ export default function MyPropouses({
     }
 
     
-    function handleWithdrawApplication(id,e) {
-         e.preventDefault();
-         e.stopPropagation();
+    async function handleWithdrawApplication(id,e) {
+          e.preventDefault();
+          e.stopPropagation();
         
         console.log(id);
         fetch(`${BACKEND_URL}/withdrawApplication/${id}`, { 
@@ -55,8 +58,10 @@ export default function MyPropouses({
             console.log("Thesis withdrawn successfully.");
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
-       // window.location.reload();
-       navigate("/prof");
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        window.location.reload();
+       
     }
 
     const getShortDescription = (desc) => (desc ? `${desc.substring(0, 25)}${desc.length > 100 ? "..." : ""}` : "");

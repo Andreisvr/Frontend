@@ -14,12 +14,13 @@ export default function MyApplied({
     study_year,
     stud_name,
     prof_email,
+    professor_id,
     id, 
  }) {
     const navigate = useNavigate();
-    const { handleThesisId} = useContext(AppContext); 
+    const { handleThesisId,handleStud_id} = useContext(AppContext); 
    
-
+   
 
     function formatDate(isoDateString) {
         const date = new Date(isoDateString);
@@ -31,7 +32,7 @@ export default function MyApplied({
     }
 
 
-    const handleWithdraw = (id) => {
+    const handleWithdraw =  async (id) => {
         
         fetch(`${BACKEND_URL}/myaply/${id}`, { 
             method: "DELETE",
@@ -42,15 +43,21 @@ export default function MyApplied({
             
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
-      //  window.location.reload();
-      navigate("/prof");
+       
+        await new Promise((resolve) => setTimeout(resolve, 350));
+
+        window.location.reload();
+        
     };
 
     function go_info(){
         handleThesisId(id);
+        handleStud_id(professor_id);
         navigate('/Applied_info')
 
+
     }
+    console.log(professor_id);
     const getShortDescription = (desc) => (desc ? `${desc.substring(0, 25)}${desc.length > 100 ? "..." : ""}` : "");
 
     return (

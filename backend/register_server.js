@@ -8,42 +8,8 @@ const app = express();
 
 
 //===================================================================
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://frontend-hj0o.onrender.com',
-    credentials: true
-}));
-
-app.use(express.json());
-
-const db = mysql.createPool({
-    connectionLimit: 10, 
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
-
-const PORT = process.env.PORT || 8081;
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-
-db.getConnection((err, connection) => {
-    if (err) {
-        console.error("Database connection failed: ", err.stack);
-        return;
-    }
-    console.log("Connected to database.");
-    connection.release(); 
-});
-
-
-//-----------------------------------------------------------------------------------------------
-
 // app.use(cors({
-//     origin: 'http://localhost:3000',
+//     origin: process.env.FRONTEND_URL || 'https://frontend-hj0o.onrender.com',
 //     credentials: true
 // }));
 
@@ -51,17 +17,18 @@ db.getConnection((err, connection) => {
 
 // const db = mysql.createPool({
 //     connectionLimit: 10, 
-//     host: "localhost",
-//     user: "root",
-//     password: "", 
-//     database: "user_db_licenta"
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME
 // });
 
-// const PORT = 8081;
+// const PORT = process.env.PORT || 8081;
 
 // app.listen(PORT, () => {
 //     console.log(`Server running on port ${PORT}`);
 // });
+
 
 // db.getConnection((err, connection) => {
 //     if (err) {
@@ -71,6 +38,39 @@ db.getConnection((err, connection) => {
 //     console.log("Connected to database.");
 //     connection.release(); 
 // });
+
+
+//-----------------------------------------------------------------------------------------------
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
+app.use(express.json());
+
+const db = mysql.createPool({
+    connectionLimit: 10, 
+    host: "localhost",
+    user: "root",
+    password: "", 
+    database: "user_db_licenta"
+});
+
+const PORT = 8081;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+db.getConnection((err, connection) => {
+    if (err) {
+        console.error("Database connection failed: ", err.stack);
+        return;
+    }
+    console.log("Connected to database.");
+    connection.release(); 
+});
 
 //----------------------------------------------------------------------------
 
@@ -1011,6 +1011,31 @@ app.post('/confirmation', (req, res) => {
 });
 
 
+app.get("/getProfessor/:id_prof", (req, res) => {
+    const { id_prof } = req.params;
+   
+   
+    if (!id_prof) {
+        return res.status(400).json({ error: "id_prof is required" });
+    }
+
+    const sql = 'SELECT * FROM profesorii_neverificati WHERE id = ?';
+
+    db.query(sql, [id_prof], (error, results) => {
+        if (error) {
+            console.error("Error fetching professor:", error);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: "Professor not found" });
+        }
+
+        res.json(results[0]); 
+    });
+});
+
+
 app.post('/confirmationPropouse', (req, res) => {
     const { id_thesis, id_prof, id_stud, date, origin } = req.body;
 
@@ -1048,7 +1073,7 @@ app.post('/confirmationPropouse', (req, res) => {
                 return res.status(404).json({ error: 'Proposal not found in Propouses table.' });
             }
 
-            // Adăugare update pentru `thesis_confirmed` în tabela `students`
+           
             const updateStudentSql = `
                 UPDATE studentii 
                 SET thesis_confirmed = 1
@@ -1073,6 +1098,37 @@ app.post('/confirmationPropouse', (req, res) => {
 });
 
 
+
+app.post('/send_message_select', (req, res) => {
+    const { message, id_stud, id_prof, sender, location } = req.body;
+
+    if (!message || !id_stud || !id_prof || !sender || !location) {
+        return res.status(400).json({ error: 'Toate câmpurile sunt necesare' });
+    }
+
+    
+    const query = `
+        INSERT INTO messages_selection (stud_id, prof_id, message, sender, location, date)
+        VALUES (?, ?, ?, ?, ?, NOW())
+    `;
+    
+    db.query(query, [id_stud, id_prof, message, sender, location], (err, result) => {
+        if (err) {
+            console.error('Eroare la inserarea mesajului:', err);
+            return res.status(500).json({ error: 'Eroare la trimiterea mesajului' });
+        }
+
+        res.status(200).json({
+            id: result.insertId,
+            id_stud: id_stud,
+            id_prof: id_prof,
+            message: message,
+            sender: sender,
+            location: location,
+            created_at: new Date().toISOString()
+        });
+    });
+});
 
 
 
@@ -1801,6 +1857,21 @@ app.post('/send_message', (req, res) => {
   });
 
 
+  app.get('/read_messages_selection/:prof_id/:student_id', (req, res) => {
+    const { prof_id, student_id } = req.params;
+    //  console.log(prof_id, student_id);
+   
+    const query = `SELECT * FROM messages_selection WHERE stud_id = ? AND prof_id = ? ORDER BY date`;
+  
+    db.query(query, [prof_id,student_id], (err, results) => {
+      if (err) {
+        return res.status(500).json({ message: 'Eroare la obținerea mesajelor' });
+      }
+      res.json(results); 
+    });
+  });
+
+  
   app.get('/student_info/:student_id', (req, res) => {
     const {  student_id } = req.params;
    

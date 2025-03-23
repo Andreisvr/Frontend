@@ -25,7 +25,7 @@ export default function Accepted({
     const [allAplies, setAllAplies] = useState([]);
     const [theses, setTheses] = useState([]); 
    
-    function handleAplication_delet(id) {
+    async function handleAplication_delet(id) {
        
         console.log(id);
         fetch(`${BACKEND_URL}/accept/${id}`, { 
@@ -38,7 +38,8 @@ export default function Accepted({
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
        
-        //window.location.reload();
+        await new Promise((resolve) => setTimeout(resolve, 350));
+
         navigate("/prof");
         
     }

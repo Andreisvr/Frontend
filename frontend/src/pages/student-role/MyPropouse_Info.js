@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useEffect,useContext,useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
-
+import { useRef } from "react";
+import SendIcon from "@mui/icons-material/Send";
 import "../../page_css/MyPropouse_Info.css";
 
 import { AppContext } from "../../components/AppContext";
@@ -14,13 +15,65 @@ export default function MyPropouse_Info()
 
     const navigate = useNavigate();
     const [thesisData, setThesisData] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
+  
     const [theses, setTheses] = useState([]); 
+    const userInfo_info = JSON.parse(localStorage.getItem("userInfo"));
+    
+    
+    const stud_id =JSON.parse(localStorage.getItem("stud_id"));
+
     const { thesis_id,type} = useContext(AppContext); 
     const [studyYear, setStudyYear] = useState([]);
     const [isLoading, setIsLoading] = useState(true); 
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState("");
+    const messagesEndRef = useRef(null);
 
+    
 
+      const scrollToBottom = () => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        };
+        
+        useEffect(() => {
+            scrollToBottom(); 
+        }, [messages]);  
+       
+
+        useEffect(() => {
+            console.log(userInfo_info.id,stud_id);
+
+            if ( type == 'student') {
+                fetch(`${BACKEND_URL}/read_messages_selection/${userInfo_info.id}/${stud_id}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        const filteredMessages = data.filter(msg => msg.location === "Propose");
+                        setMessages(filteredMessages); 
+                        // console.log(data);
+                       
+                    })
+                    .catch((err) => console.error("Error fetching messages:", err));
+            }else{
+                if(type == 'professor'){
+                    fetch(`${BACKEND_URL}/read_messages_selection/${stud_id}/${userInfo_info.id}`, {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            const filteredMessages = data.filter(msg => msg.location === "Propose");
+                            setMessages(filteredMessages);
+                           
+                        })
+                        .catch((err) => console.error("Error fetching messages:", err));
+                }
+            }
+        }, []);
+
+        
     useEffect(() => {
         const fetchData = async () => {
             if (!thesis_id) {
@@ -91,8 +144,10 @@ export default function MyPropouse_Info()
 
    
 
+  
 
-    function handlePropouse_Accepted(id) {
+
+    async  function handlePropouse_Accepted(id) {
         
         console.log(`Accepting proposal with ID: ${id}`);
         fetch(`${BACKEND_URL}/proposalAcceptConfirm/${id}`, {
@@ -111,7 +166,9 @@ export default function MyPropouse_Info()
         .catch(error => console.error("Error accepting thesis:", error));
         
         SendEmail('accepted'); 
-       // window.location.reload();
+       
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
         navigate("/prof");
     }
     
@@ -136,6 +193,8 @@ export default function MyPropouse_Info()
         .catch(error => console.error("Error rejecting thesis:", error));
        
         SendEmail('reject'); 
+       
+        await new Promise((resolve) => setTimeout(resolve, 300));
 
         navigate('/prof')
        
@@ -174,9 +233,7 @@ export default function MyPropouse_Info()
                origin:'propose'
            };
    
-           console.log('acceptedApplicationData',acceptedApplicationData);
            
-       
            const acceptResponse = await fetch(`${BACKEND_URL}/acceptedApplications`, {
                method: "POST",
                headers: { "Content-Type": "application/json" },
@@ -197,7 +254,7 @@ export default function MyPropouse_Info()
        }
    }
 
-   function handleWithdrawApplication(id,e) {
+  async function handleWithdrawApplication(id,e) {
     e.preventDefault();
     e.stopPropagation();
    
@@ -210,11 +267,15 @@ export default function MyPropouse_Info()
         console.log("Thesis withdrawn successfully.");
     })
     .catch(error => console.error("Error withdrawing thesis:", error));
+   
+    await new Promise((resolve) => setTimeout(resolve, 350));
+
     navigate('/prof');
     };
 
 
     async function SendEmail(answer) {
+       
         const subject = answer === 'accepted'  
             ? 'Congratulations! Your Propose has been accepted'  
             : 'We are sorry! Your Propose was not accepted';  
@@ -269,6 +330,70 @@ export default function MyPropouse_Info()
     }
     
 
+    const sendMessage = () => {
+
+        
+
+        if (!message.trim()) return;
+    
+        let payload = {};
+    
+        if (type === "professor" || type === 1) {
+            
+            payload = {
+                message: message,
+                id_prof: userInfo_info?.id,  
+                id_stud: thesisData?.stud_id, 
+                sender: 'prof',  
+                location: 'Propose',
+            };
+        } else {
+            
+            payload = {
+                message: message,
+                id_prof: thesisData?.prof_id, 
+                id_stud: thesisData?.stud_id,  
+                sender: 'stud', 
+                location: 'Propose',
+            };
+        }
+        
+       
+       
+
+       
+    
+        fetch(`${BACKEND_URL}/send_message_select`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Mesaj trimis cu succes:", data);
+    
+            if (data && data.message) {
+                const newMessage = {
+                    id: data.id,
+                    id_stud: data.id_stud,
+                    id_prof: data.id_prof,
+                    mesaje: data.message,
+                    created_at: new Date().toISOString(),
+                    sender: payload.sender,  
+                };
+    
+                setMessages((prevMessages) => [...prevMessages, newMessage]);
+    
+                
+                setMessage("");
+                
+            }
+        })
+        .catch((err) => console.error("Eroare la trimiterea mesajului:", err));
+    };
+    
+    
+    
    function formatDate(isoDateString) {
     const date = new Date(isoDateString);
     if (date.getTime() === 0) {
@@ -342,7 +467,39 @@ export default function MyPropouse_Info()
                     <p style={{ color: "#333" }}>Study year: {studyYear || 'null'}</p>
                     <p style={{ color: "#333" }}>Profesor Name: {thesisData?.prof_name || 'null'}</p>
                     <p style={{ color: "#333" }}>Answer: {thesisData?.state || 'null'}</p>
-                </form>
+
+                   
+                    
+                    <div className="mesaj_lista">
+                        {messages && messages.length > 0 ? (
+                            messages.map((msg, index) => (
+                                <div key={msg.id} className={`mesaj ${msg.sender === "prof" ? "right" : "left"}`}>
+                                    <p style={{color:'black'}}>{msg.message}</p>
+                                    <p>
+                                   
+                                        <strong>{msg.sender === "stud" ? "student" : "profesor"}</strong> - {new Date(msg.date).toLocaleString()}
+                                    </p>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No messages yet</p>
+                        )}
+                        <div ref={messagesEndRef} />
+                         <div className="mesaj_input">
+                        
+                        <input 
+                            type="text" 
+                            className="mesaj_place" 
+                            value={message} 
+                             onChange={(e) => setMessage(e.target.value)} 
+                        />
+                        <SendIcon className="send_btn" onClick={sendMessage} />
+                    </div>
+                    
+                 </div>
+                
+                    </form>
+               
             </div>
         </div>
     );

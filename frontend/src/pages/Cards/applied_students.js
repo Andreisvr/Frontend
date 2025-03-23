@@ -13,7 +13,7 @@ export default function Applied({
     applied_data,
     stud_email,
     student_program,
-   
+    stud_id,
     stud_name,
     study_year,
     id, 
@@ -23,14 +23,13 @@ export default function Applied({
     const [allAplies, setAllAplies] = useState([]);
     const [theses, setTheses] = useState([]); 
     const navigate = useNavigate();
-    const { handleThesisId } = useContext(AppContext); 
+    const { handleThesisId , handleStud_id} = useContext(AppContext); 
 
  
-    function handleAplication_delet(id,e,origin) {
+   async function handleAplication_delet(id,origine) {
        
-        // e.preventDefault();
-        // e.stopPropagation();
-    if(origin ==='buton'){
+       
+    if(origine ==='buton'){
        
         SendEmail('rejected');
      }
@@ -44,8 +43,12 @@ export default function Applied({
             setTheses(prevTheses => prevTheses.filter(thesis => thesis.id !== id));
         })
         .catch(error => console.error("Error withdrawing thesis:", error));
-            navigate('/prof');
-        //window.location.reload();
+        
+        await new Promise((resolve) => setTimeout(resolve, 300));
+    
+        window.location.reload();
+        
+       
         
     }
 
@@ -131,6 +134,7 @@ export default function Applied({
     
     async function SendEmail(answer) {
 
+       
 
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const prof_name = userInfo.name;
@@ -200,6 +204,7 @@ export default function Applied({
    
     function go_info(){
         handleThesisId(id);
+        handleStud_id(stud_id);
        navigate('/Applied_info')
 
     }
@@ -238,7 +243,7 @@ export default function Applied({
                             type="button" 
                             onClick={(e) => { 
                                 e.stopPropagation(); 
-                                handleAplication_delet(id,e,'buton'); 
+                                handleAplication_delet(id,'buton'); 
                             }}
                         >
                             Decline

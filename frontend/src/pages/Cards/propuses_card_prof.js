@@ -25,7 +25,7 @@ export default function Propouses({
   
     const [allAplies, setAllAplies] = useState([]);
     const [theses, setTheses] = useState([]); 
-    const { handleThesisId } = useContext(AppContext); 
+    const { handleThesisId,handleStud_id } = useContext(AppContext); 
 
 
    const navigate = useNavigate();
@@ -36,7 +36,8 @@ export default function Propouses({
    }
     
 
-    function handlePropouse_Accepted(id) {
+   async  function handlePropouse_Accepted(id) {
+
         console.log(`Accepting proposal with ID: ${id}`);
         fetch(`${BACKEND_URL}/proposalAcceptConfirm/${id}`, {
             method: "PATCH", 
@@ -53,12 +54,15 @@ export default function Propouses({
         })
         .catch(error => console.error("Error accepting thesis:", error));
        
-        //window.location.reload();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        
+        window.location.reload();
         navigate("/prof");
+
     }
     
     async function handlePropouse_reject(id,e) {
-         e.preventDefault();
+        // e.preventDefault();
         // e.stopPropagation();
         SendEmail('reject'); 
         console.log(`Rejecting proposal with ID: ${id}`);
@@ -77,9 +81,12 @@ export default function Propouses({
             );
         })
         .catch(error => console.error("Error rejecting thesis:", error));
-       
-       // window.location.reload();
-       navigate("/prof");
+        
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        
+        window.location.reload();
+        navigate("/prof");
 
     }
 
@@ -137,7 +144,7 @@ export default function Propouses({
     
             SendEmail('accepted'); 
             handlePropouse_Accepted(thesisId);
-            navigate('/prof')
+           // navigate('/prof')
     
         } catch (error) {
             console.error("Error in handleAcceptStudent:", error);
@@ -152,6 +159,7 @@ export default function Propouses({
     {
         handleThesisId(id); 
         navigate('/MyPropouse_Info');
+         handleStud_id(stud_id);
     }
 
 
