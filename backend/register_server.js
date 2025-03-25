@@ -171,7 +171,7 @@ app.post('/reg_stud', async (req, res) => {
     if (pass) {
        // const saltRounds = parseInt(process.env.SALT); 
         const saltRounds= 10;
-            hashedPassword = await bcrypt.hash(password,  saltRounds);
+            hashedPassword = await bcrypt.hash(pass,  saltRounds);
     }
 
     
