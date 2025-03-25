@@ -1533,8 +1533,8 @@ app.patch('/update-password', async (req, res) => {
     }
 
     try {
-        const saltRounds= 10;
-          //const saltRounds = parseInt(process.env.SALT); 
+        
+          const saltRounds = parseInt(process.env.SALT); 
         const hashedPassword = await bcrypt.hash(password,  saltRounds);
       
 
