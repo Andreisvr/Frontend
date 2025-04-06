@@ -146,6 +146,7 @@ function handleGoLogin(){
             <button type="button" onClick={handleEmailSubmit} className="Login_btn" style={{width:'104%'}}>
               Submit
             </button>
+            <br></br>
             <button type="button" onClick={handleGoLogin} className="Login_btn" style={{width:'104%'}}>
               Back
             </button>

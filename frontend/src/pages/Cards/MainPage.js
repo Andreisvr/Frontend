@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import "../../page_css/prof_cab.css";
 import AddThesis from "./thesis_card.js";
 import { AppContext } from "../../components/AppContext.js";
@@ -396,6 +396,57 @@ export default function Cabinet() {
         }
         setViewType("Propoused");
     }
+
+    
+
+    function exportToCSV(data, filename) {
+        if (!data || !data.length) {
+            // alert(`Lista ${filename} este goală.`);
+            console.log('lista goala');
+            return;
+        }else{
+           // console.log(filename);
+        }
+    
+        const csvRows = [];
+    
+        
+        const headers = Object.keys(data[0]);
+        csvRows.push(headers.join(','));
+    
+        
+        for (const row of data) {
+            const values = headers.map(header => {
+                let val = row[header];
+                if (typeof val === 'string') {
+                    val = val.replace(/"/g, '""'); 
+                }
+                return `"${val}"`;
+            });
+            csvRows.push(values.join(','));
+        }
+    
+        const csvContent = csvRows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${filename}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    async function handleExportInfo() {
+
+        exportToCSV(MyAppliedList, "applied_list");
+        exportToCSV(PropousesList, "propouse_list");
+        exportToCSV(AcceptedList, "accepted_list");
+        exportToCSV(MyConfirmedthesis, "confirmed_list"); 
+        
+
+    }
     
 
     async function handleShowConfirmed() {
@@ -418,7 +469,7 @@ export default function Cabinet() {
             
             
             setMyConfirmed(data);
-            console.log('my thesis', data); 
+            // console.log('my thesis', data); 
         })
         .catch(error => console.error("Error fetching accepted applications:", error));
         
@@ -680,9 +731,14 @@ export default function Cabinet() {
 
 
     {type === "professor" && isVerified == 1 && (
+        <>
+        <div className='export_info'>
+            <SystemUpdateAltIcon onClick={handleExportInfo} className="export_button"/>
+        </div>
         <div className="add-button-container">
             <AddCircleOutlineIcon onClick={handleClickAdd} className="add_button" />
         </div>
+        </>
     )}
     {viewType === "MyPropouse" && (
         <div className="add-button-container">
